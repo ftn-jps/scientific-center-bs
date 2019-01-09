@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html ng-app="app">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="UTF-8"/>
+	<meta name="viewport"
+		content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+	<!-- CSS -->
+	<link rel="stylesheet" href="lib/bootstrap-4.1.1.css"/>
+	<link rel="stylesheet" href="font/fa/css/fontawesome-all.css"/>
+	<link rel="stylesheet" href="app.css"/>
+
+	<title>Scientific center</title>
+</head>
+<body>
+	<my-header></my-header>
+	<div class="container-fluid">
+		<ui-view></ui-view>
+	</div>
+
+	<!-- Javascript -->
+	<!-- jQuery Slim -->
+	<script src="lib/jquery-3.3.1.slim.js"></script>
+	<!-- Popper.js -->
+	<script src="lib/popper-1.12.9.js"></script>
+	<!-- Bootstrap -->
+	<script src="lib/bootstrap-4.1.1.js"></script>
+	<!-- AngularJS -->
+	<script src="lib/angular-1.6.9.js"></script>
+	<script src="lib/angular-ui-router.js"></script>
+	<!-- App -->
+	<script src="app.module.js"></script>
+	<script src="app.config.js"></script>
+
+	<script src="core/core.module.js"></script>
+
+	<script src="part/header/header.module.js"></script>
+	<script src="part/header/header.component.js"></script>
+	<script src="part/home/home.module.js"></script>
+	<script src="part/home/home.component.js"></script>
+	<script src="part/sidebar/sidebar.module.js"></script>
+	<script src="part/sidebar/sidebar.component.js"></script>
+</body>
+</html>
