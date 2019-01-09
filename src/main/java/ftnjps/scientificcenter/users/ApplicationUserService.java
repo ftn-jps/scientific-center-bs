@@ -16,6 +16,8 @@ public interface ApplicationUserService {
 
 	boolean changePassword(String email, ChangePasswordDTO passwordDto);
 
+	String generateResetToken(ApplicationUser forUser);
+
 	String resetPassword(ApplicationUser forUser);
 
 	void failedLogin(ApplicationUser user);

@@ -66,9 +66,18 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
 	@Override
 	@Transactional(readOnly = false)
+	public String generateResetToken(ApplicationUser forUser) {
+		forUser.generateResetToken();
+		userRepository.save(forUser);
+		return forUser.getResetToken();
+	}
+
+	@Override
+	@Transactional(readOnly = false)
 	public String resetPassword(ApplicationUser forUser) {
 		String newPassword = UUID.randomUUID().toString();
 		forUser.setPassword(bCryptPasswordEncoder.encode(newPassword));
+		forUser.setResetToken(null);
 		userRepository.save(forUser);
 		return newPassword;
 	}

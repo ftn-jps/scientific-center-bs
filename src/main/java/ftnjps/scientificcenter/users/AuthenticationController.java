@@ -67,10 +67,10 @@ public class AuthenticationController {
 		if(user == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		user.generateResetToken();
+		String resetToken = userService.generateResetToken(user);
 		emailUtils.sendEmail(email,
 				"Password recovery",
-				"https://localhost:" + port + "/api/authentication/reset/confirm/" + user.getResetToken());
+				"https://localhost:" + port + "/api/authentication/reset/confirm/" + resetToken);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 
@@ -81,12 +81,11 @@ public class AuthenticationController {
 		if(user == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-		user.setResetToken(null);
 		String newPassword = userService.resetPassword(user);
 		emailUtils.sendEmail(user.getEmail(),
 				"Password recovery",
 				"Your new password is: " + newPassword + "\nPlease change it as soon as possible.");
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<>("Your new password has been sent to your email", HttpStatus.OK);
 	}
 
 }
