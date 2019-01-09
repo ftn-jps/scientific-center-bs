@@ -1,0 +1,25 @@
+<h2>Change your password:</h2>
+<form name="userEditForm">
+	<input type="password"
+		class="form-group form-control"
+		placeholder="Old password*"
+		ng-model="$ctrl.user.oldPassword"
+		minlength="6"/>
+	<input type="password"
+		class="form-group form-control"
+		placeholder="New password*"
+		ng-model="$ctrl.user.newPassword"
+		minlength="6"/>
+	<input type="password"
+		class="form-group form-control"
+		placeholder="Enter new password again*"
+		ng-model="$ctrl.user.newPasswordAgain"
+		minlength="6"/>
+	<input type="submit"
+		class="btn btn-custom"
+		value="Change"
+		ng-click="userEditForm.$valid && $ctrl.send()"/>
+	<p>
+		{{$ctrl.status}}
+	</p>
+</form>

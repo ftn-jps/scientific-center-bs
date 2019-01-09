@@ -1,0 +1,23 @@
+<h2>Your profile:</h2>
+<div class="card">
+	<div class="card-body">
+		<h3 class="card-title mb-3">
+			<i class="fas fa-user-circle"></i>
+			{{$root.user.email}}
+		</h3>
+		<hr>
+		<p class="card-text">
+			<i class="fas fa-id-badge"></i>
+			{{$root.user.name}}
+			{{$root.user.lastName}}
+		</p>
+		<p class="card-text">
+			<i class="fas fa-map-marker"></i>
+			{{$root.user.city}}
+		</p>
+		<p class="card-text">
+			<i class="fas fa-phone-square"></i>
+			{{$root.user.phoneNumber}}
+		</p>
+	</div>
+</div>
