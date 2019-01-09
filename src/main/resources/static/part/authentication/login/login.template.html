@@ -1,0 +1,24 @@
+<h2>Log in:</h2>
+<form name="loginForm">
+	<input type="email"
+		class="form-group form-control"
+		placeholder="Email*"
+		ng-model="$ctrl.user.email"
+		required
+		autofocus/>
+	<input type="password"
+		class="form-group form-control"
+		placeholder="Password*"
+		ng-model="$ctrl.user.password"
+		required/>
+	<input type="submit"
+		class="btn btn-custom"
+		value="Log in"
+		ng-click="loginForm.$valid && $ctrl.send()"/>
+	<a class="ml-3" ng-click="$ctrl.resetPassword()">
+		Forgot your password?
+	</a>
+	<p>
+		{{$ctrl.status}}
+	</p>
+</form>
