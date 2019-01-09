@@ -1,3 +1,6 @@
 'use strict';
 
-angular.module('header', []);
+angular.module('header', [
+	'ui.router',
+	'core.authentication'
+]);
