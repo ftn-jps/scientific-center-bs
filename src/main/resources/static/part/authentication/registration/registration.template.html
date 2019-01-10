@@ -23,28 +23,34 @@
 		class="form-group form-control"
 		placeholder="Name"
 		ng-model="$ctrl.user.name"
-		pattern="[a-zA-Z]+"/>
+		pattern="[a-zA-Z]+"
+		required/>
 		<!-- Unicode regex classes are not yet supported in javascript -->
 		<!-- pattern="\p{L}+"/> -->
 	<input type="text"
 		class="form-group form-control"
 		placeholder="Last name"
 		ng-model="$ctrl.user.lastName"
-		pattern="[a-zA-Z]+"/>
+		pattern="[a-zA-Z]+"
+		required/>
 		<!-- Unicode regex classes are not yet supported in javascript -->
 		<!-- pattern="\p{L}+"/> -->
 	<input type="text"
 		class="form-group form-control"
 		placeholder="City"
 		ng-model="$ctrl.user.city"
-		pattern="[a-zA-Z ]+"/>
+		pattern="[a-zA-Z ]+"
+		required/>
 		<!-- Unicode regex classes are not yet supported in javascript -->
 		<!-- pattern="[\p{L} ]+"/> -->
-	<input type="tel"
+	<input type="text"
 		class="form-group form-control"
-		placeholder="Phone number"
-		ng-model="$ctrl.user.phoneNumber"
-		pattern="\d{9,10}"/>
+		placeholder="Country"
+		ng-model="$ctrl.user.country"
+		pattern="[a-zA-Z ]+"
+		required/>
+		<!-- Unicode regex classes are not yet supported in javascript -->
+		<!-- pattern="[\p{L} ]+"/> -->
 	<input type="submit"
 		class="btn btn-custom"
 		value="Register"

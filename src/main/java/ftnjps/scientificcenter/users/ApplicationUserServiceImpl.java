@@ -1,12 +1,17 @@
 package ftnjps.scientificcenter.users;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
 @Transactional(readOnly = true)
 @Service
@@ -16,6 +21,8 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 	private ApplicationUserRepository userRepository;
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Value("${geocoding.url}")
+	private String geocodingUrl;
 
 	@Override
 	public ApplicationUser findOne(Long id) {
@@ -47,8 +54,28 @@ public class ApplicationUserServiceImpl implements ApplicationUserService {
 
 		if(!user.getPassword().matches("(?U)^(?=.*\\p{Lower})(?=.*\\p{Upper})(?=.*\\d).+$"))
 			return null;
-
 		user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+
+		// Convert city and country to latitude and longitude
+		// Uses Nominatim geocoder
+		RestTemplate restClient = new RestTemplate();
+		String query = null;
+		try {
+			query = geocodingUrl.replaceFirst("@1@",
+					URLEncoder.encode(user.getCity(), "UTF-8"));
+			query = query.replaceFirst("@2@",
+					URLEncoder.encode(user.getCountry(), "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		ResponseEntity<String> response = restClient.getForEntity(query, String.class);
+
+		String location = response.getBody().replaceFirst(".*\"lat\":\"([\\d.-]+)\".*", "$1");
+		location += "," + response.getBody().replaceFirst(".*\"lon\":\"([\\d.-]+)\".*", "$1");
+		if(location.equals("[],[]"))
+			return null;
+		user.setLocation(location);
+
 		return userRepository.save(user);
 	}
 

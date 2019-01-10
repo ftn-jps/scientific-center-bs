@@ -1,5 +1,7 @@
 package ftnjps.scientificcenter.users;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -7,6 +9,7 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -17,6 +20,8 @@ import javax.validation.constraints.Size;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
+import ftnjps.scientificcenter.fieldofstudy.FieldOfStudy;
 
 @Entity
 public class ApplicationUser {
@@ -38,17 +43,33 @@ public class ApplicationUser {
 	private String password;
 
 	@Pattern(regexp = "(?U)\\p{Alpha}*")
+	@NotBlank
 	private String name;
 
 	@Pattern(regexp = "(?U)\\p{Alpha}*")
+	@NotBlank
 	private String lastName;
 
 	@Pattern(regexp = "(?U)[\\p{Alpha}\\h]*")
+	@NotBlank
 	private String city;
+
+	@Pattern(regexp = "(?U)[\\p{Alpha}\\h]*")
+	@NotBlank
+	private String country;
+
+	@JsonProperty(access = Access.READ_ONLY)
+	private String location;
+
+	@Pattern(regexp = "(?U)[\\p{Alpha}\\h.]*")
+	private String title;
+
+	@ManyToMany
+	private List<FieldOfStudy> fieldsOfStudy = new ArrayList<>();
 
 	@Enumerated(EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
-	private ApplicationUserType userType = ApplicationUserType.VISITOR;
+	private ApplicationUserType userType = ApplicationUserType.AUTHOR;
 
 	@JsonIgnore
 	private int failedLoginAttempts = 0;
@@ -62,13 +83,15 @@ public class ApplicationUser {
 			String password,
 			String name,
 			String lastName,
-			String city) {
+			String city,
+			String country) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.name = name;
 		this.lastName = lastName;
 		this.city = city;
+		this.country = country;
 	}
 
 	public Long getId() {
@@ -125,6 +148,42 @@ public class ApplicationUser {
 
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getCountry() {
+		return country;
+	}
+
+	public void setCountry(String country) {
+		this.country = country;
+	}
+
+	public String getLocation() {
+		return location;
+	}
+
+	public void setLocation(String location) {
+		this.location = location;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public List<FieldOfStudy> getFieldsOfStudy() {
+		return fieldsOfStudy;
+	}
+
+	public void setFieldsOfStudy(List<FieldOfStudy> fieldsOfStudy) {
+		this.fieldsOfStudy = fieldsOfStudy;
+	}
+
+	public void addFieldOfStudy(FieldOfStudy field) {
+		this.fieldsOfStudy.add(field);
 	}
 
 	public ApplicationUserType getUserType() {

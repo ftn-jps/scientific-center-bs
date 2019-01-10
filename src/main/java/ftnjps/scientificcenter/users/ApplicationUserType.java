@@ -2,6 +2,6 @@ package ftnjps.scientificcenter.users;
 
 public enum ApplicationUserType {
 
-	VISITOR;
+	AUTHOR, EDITOR, REVIEWER;
 
 }
