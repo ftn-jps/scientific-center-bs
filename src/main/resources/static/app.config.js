@@ -11,7 +11,7 @@ angular.module('app')
 			.state({
 				name: 'articles',
 				url: '/articles',
-				template: '<h1>Articles</h1>'
+				component: 'myArticleList'
 			})
 			.state({
 				name: 'submit',

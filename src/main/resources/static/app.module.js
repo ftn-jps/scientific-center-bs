@@ -5,5 +5,6 @@ angular.module('app', [
 	'header',
 	'authentication',
 	'profile',
-	'core.authentication'
+	'core.authentication',
+	'articleList'
 ]);
