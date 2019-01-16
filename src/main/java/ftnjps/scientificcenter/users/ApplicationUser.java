@@ -1,7 +1,7 @@
 package ftnjps.scientificcenter.users;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.Entity;
@@ -65,7 +65,7 @@ public class ApplicationUser {
 	private String title;
 
 	@ManyToMany
-	private List<FieldOfStudy> fieldsOfStudy = new ArrayList<>();
+	private Set<FieldOfStudy> fieldsOfStudy = new HashSet<>();
 
 	@Enumerated(EnumType.STRING)
 	@JsonProperty(access = Access.READ_ONLY)
@@ -174,11 +174,11 @@ public class ApplicationUser {
 		this.title = title;
 	}
 
-	public List<FieldOfStudy> getFieldsOfStudy() {
+	public Set<FieldOfStudy> getFieldsOfStudy() {
 		return fieldsOfStudy;
 	}
 
-	public void setFieldsOfStudy(List<FieldOfStudy> fieldsOfStudy) {
+	public void setFieldsOfStudy(Set<FieldOfStudy> fieldsOfStudy) {
 		this.fieldsOfStudy = fieldsOfStudy;
 	}
 
