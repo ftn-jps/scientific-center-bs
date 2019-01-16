@@ -131,7 +131,7 @@ public class TestData {
 		author1.setUserType(ApplicationUserType.AUTHOR);
 		author1 = applicationUserService.add(author1);
 
-		Journal journal1 = new Journal("1111-1111", "Journal One", false, editor1);
+		Journal journal1 = new Journal("1111-1111", "Journal One", false, editor1, 5);
 		journal1.addFieldOfStudy(fieldComputer);
 		journal1.addFieldOfStudy(fieldMathematics);
 		journal1.addEditor(editor2);

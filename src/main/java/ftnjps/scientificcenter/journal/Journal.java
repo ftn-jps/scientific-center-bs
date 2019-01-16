@@ -48,16 +48,20 @@ public class Journal {
 	@ManyToMany
 	private Set<ApplicationUser> reviewers = new HashSet<>();
 
+	private double price;
+
 	public Journal() {}
 
 	public Journal(String issn,
 			String name,
 			boolean isOpenAccess,
-			ApplicationUser mainEditor) {
+			ApplicationUser mainEditor,
+			double price) {
 		this.issn = issn;
 		this.name = name;
 		this.isOpenAccess = isOpenAccess;
 		this.mainEditor = mainEditor;
+		this.price = price;
 	}
 
 	public Long getId() {
@@ -142,6 +146,14 @@ public class Journal {
 
 	public void addReviewer(ApplicationUser reviewer) {
 		this.reviewers.add(reviewer);
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
 	}
 
 }
