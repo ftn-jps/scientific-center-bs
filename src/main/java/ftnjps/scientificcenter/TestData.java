@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudy;
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
+import ftnjps.scientificcenter.journal.Journal;
+import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
 import ftnjps.scientificcenter.users.ApplicationUserService;
 import ftnjps.scientificcenter.users.ApplicationUserType;
@@ -18,6 +20,8 @@ public class TestData {
 	private FieldOfStudyService fieldOfStudyService;
 	@Autowired
 	private ApplicationUserService applicationUserService;
+	@Autowired
+	private JournalService journalService;
 
 	@SuppressWarnings("unused")
 	@PostConstruct
@@ -74,6 +78,25 @@ public class TestData {
 		editor3.addFieldOfStudy(fieldPhysics);
 		editor3.setUserType(ApplicationUserType.EDITOR);
 		editor3 = applicationUserService.add(editor3);
+
+		ApplicationUser reviewer1 = new ApplicationUser(
+				"reviewer1@local",
+				"1234qwerQWER",
+				"Reviewer",
+				"One",
+				"Novi Sad",
+				"Serbia");
+		reviewer1.setTitle("Ph.D.");
+		reviewer1.addFieldOfStudy(fieldComputer);
+		reviewer1.setUserType(ApplicationUserType.REVIEWER);
+		reviewer1 = applicationUserService.add(reviewer1);
+
+		Journal journal1 = new Journal("1111-1111", "Journal One", false, editor1);
+		journal1.addFieldOfStudy(fieldComputer);
+		journal1.addFieldOfStudy(fieldMathematics);
+		journal1.addEditor(editor2);
+		journal1.addReviewer(reviewer1);
+		journal1 = journalService.add(journal1);
 
 	}
 }
