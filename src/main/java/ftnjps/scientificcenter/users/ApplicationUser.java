@@ -13,7 +13,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -38,7 +37,6 @@ public class ApplicationUser {
 	private String email;
 
 	@Size(min = 8)
-	@NotEmpty
 	@JsonProperty(access = Access.WRITE_ONLY)
 	private String password;
 

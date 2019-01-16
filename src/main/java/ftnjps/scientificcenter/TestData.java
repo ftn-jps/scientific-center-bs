@@ -139,20 +139,40 @@ public class TestData {
 		journal1.addReviewer(reviewer2);
 		journal1 = journalService.add(journal1);
 
+		Journal journal2 = new Journal("2222-2222", "Journal Two", true, editor3, 5);
+		journal2.addFieldOfStudy(fieldPhysics);
+		journal2.addReviewer(reviewer2);
+		journal2.addReviewer(reviewer3);
+		journal2 = journalService.add(journal2);
+
+		ApplicationUser coauthor1 = new ApplicationUser(
+				"coauthor1@local",
+				null,
+				"Coauthor",
+				"One",
+				"Barcelona",
+				"Spain");
+		coauthor1.setUserType(ApplicationUserType.COAUTHOR);
+		coauthor1 = applicationUserService.add(coauthor1);
+
 		Article article1 = new Article("Eiffel programming method",
 				author1,
 				journal1,
 				"programming, language, method, Eiffel",
-				"Abstract of Eiffel programming method",
+				"Abstract of Eiffel programming method.",
 				fieldComputer,
 				"pdf-base64-encoded");
-		article1.addCoauthor(
-				new ApplicationUser("coauthor1@local",
-						null,
-						"Coauthor",
-						"One",
-						"Barcelona",
-						"Spain"));
+		article1.addCoauthor(coauthor1);
 		article1 = articleService.add(article1);
+
+		Article article2 = new Article("The freedom of GNU",
+				author1,
+				journal2,
+				"GNU, Richard Stallman, freedom, software",
+				"GNU is an operating system that is free software-that is, it respects users' freedom.",
+				fieldComputer,
+				"pdf-base64-encoded");
+		article2.addCoauthor(coauthor1);
+		article2 = articleService.add(article2);
 	}
 }
