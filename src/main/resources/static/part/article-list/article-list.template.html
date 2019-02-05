@@ -115,9 +115,12 @@
 							Article is already purchased. Download here
 						</span>
 					</a>
-					<a ng-if="!article.hasAccess">
+					<a ng-if="!article.hasAccess && $root.user" ng-click="$ctrl.buy(article.id)">
 						Purchase for
 						<strong>{{article.journal.price | currency}}</strong>
+					</a>
+					<a ng-if="!article.hasAccess && !$root.user" ui-sref="authentication">
+						Log in to purchase this article
 					</a>
 				</div>
 			</div>

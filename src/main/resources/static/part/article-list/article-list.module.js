@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('articleList', [
-	'core.article'
+	'core.article',
+	'core.transaction'
 ]);

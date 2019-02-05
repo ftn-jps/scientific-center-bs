@@ -3,7 +3,7 @@
 angular.module('articleList')
 	.component('myArticleList', {
 		templateUrl: '/part/article-list/article-list.template.html',
-		controller: function(ArticleService) {
+		controller: function(ArticleService, TransactionService) {
 			ArticleService.getAll()
 				.then((response) => {
 					this.articles = response.data;
@@ -14,6 +14,13 @@ angular.module('articleList')
 			this.orderBy = (order) => {
 				this.isReverse = (this.order === order) ? !this.isReverse : false;
 				this.order = order;
+			};
+
+			this.buy = (articleId) => {
+				TransactionService.buy(articleId)
+					.then((result) => {
+						window.location = result.data.paymentUrl;
+					});
 			};
 		}
 	});
