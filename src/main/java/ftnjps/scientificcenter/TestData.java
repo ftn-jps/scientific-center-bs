@@ -27,7 +27,6 @@ public class TestData {
 	@Autowired
 	private ArticleService articleService;
 
-	@SuppressWarnings("unused")
 	@PostConstruct
 	private void init() {
 		FieldOfStudy fieldAstronomy = fieldOfStudyService.add(
@@ -144,6 +143,20 @@ public class TestData {
 		journal2.addReviewer(reviewer2);
 		journal2.addReviewer(reviewer3);
 		journal2 = journalService.add(journal2);
+
+		Journal journal3 = new Journal("3333-3333", "Journal Three", true, editor2, 10);
+		journal3.addFieldOfStudy(fieldMedicine);
+		journal3.addReviewer(reviewer2);
+		journal3.addReviewer(reviewer3);
+		journal3 = journalService.add(journal3);
+
+		Journal journal4 = new Journal("4444-4444", "Journal Two", false, editor3, 5);
+		journal4.addFieldOfStudy(fieldGeography);
+		journal4.addFieldOfStudy(fieldChemistry);
+		journal4.addFieldOfStudy(fieldBiology);
+		journal4.addReviewer(reviewer1);
+		journal4.addReviewer(reviewer2);
+		journal4 = journalService.add(journal4);
 
 		ApplicationUser coauthor1 = new ApplicationUser(
 				"coauthor1@local",
