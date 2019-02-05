@@ -2,6 +2,7 @@ package ftnjps.scientificcenter.transaction;
 
 import java.net.URI;
 import java.security.Principal;
+import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -53,8 +54,10 @@ public class TransactionController {
 				gatewayUrl + "/api/transactions",
 				transaction);
 		String paymentUrl = response.toString();
+		HashMap<String,String> result = new HashMap<>();
+		result.put("paymentUrl", paymentUrl);
 
-		return new ResponseEntity<>(paymentUrl, HttpStatus.OK);
+		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
 	@GetMapping("/success/{token}")
