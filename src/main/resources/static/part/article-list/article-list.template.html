@@ -107,10 +107,15 @@
 					</p>
 				</div>
 				<div class="card-footer text-center">
-					<a ng-if="article.journal.openAccess">
-						Free download
+					<a ng-if="article.hasAccess">
+						<span ng-if="article.journal.openAccess">
+							Free download
+						</span>
+						<span ng-if="!article.journal.openAccess">
+							Article is already purchased. Download here
+						</span>
 					</a>
-					<a ng-if="!article.journal.openAccess">
+					<a ng-if="!article.hasAccess">
 						Purchase for
 						<strong>{{article.journal.price | currency}}</strong>
 					</a>
