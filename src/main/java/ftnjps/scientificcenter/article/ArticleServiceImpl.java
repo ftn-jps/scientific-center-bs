@@ -6,12 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ftnjps.scientificcenter.users.ApplicationUser;
+
 @Transactional(readOnly = true)
 @Service
 public class ArticleServiceImpl implements ArticleService {
 
 	@Autowired
 	private ArticleRepository articleRepository;
+	@Autowired
+	private ArticleConverter articleConverter;
 
 	@Override
 	public Article findOne(Long id) {
@@ -19,8 +23,9 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
-	public List<Article> findAll() {
-		return articleRepository.findAll();
+	public List<ArticleDto> findAll(ApplicationUser payer) {
+		List<Article> articles = articleRepository.findAll();
+		return articleConverter.toDto(articles, payer);
 	}
 
 	@Override
