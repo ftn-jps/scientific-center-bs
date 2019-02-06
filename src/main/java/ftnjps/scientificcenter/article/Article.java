@@ -10,7 +10,6 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -29,7 +28,6 @@ public class Article {
 	@Version
 	private Long version;
 
-	@Pattern(regexp = "(?U)[\\p{Alpha}\\h]*")
 	private String title;
 
 	@ManyToOne

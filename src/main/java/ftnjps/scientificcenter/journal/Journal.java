@@ -11,7 +11,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Version;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -32,7 +31,6 @@ public class Journal {
 	@NotBlank
 	private String issn;
 
-	@Pattern(regexp = "(?U)[\\p{Alpha}\\h]*")
 	private String name;
 
 	@ManyToMany

@@ -130,6 +130,30 @@ public class TestData {
 		author1.setUserType(ApplicationUserType.AUTHOR);
 		author1 = applicationUserService.add(author1);
 
+		ApplicationUser author2 = new ApplicationUser(
+				"author2@local",
+				"1234qwerQWER",
+				"Ричард",
+				"Сталман",
+				"Cambridge",
+				"USA");
+		author2.setTitle("Ph.D.");
+		author2.addFieldOfStudy(fieldComputer);
+		author2.setUserType(ApplicationUserType.AUTHOR);
+		author2 = applicationUserService.add(author2);
+
+		ApplicationUser author3 = new ApplicationUser(
+				"author3@local",
+				"1234qwerQWER",
+				"Bojan",
+				"Stipic",
+				"Novi Sad",
+				"Serbia");
+		author3.setTitle("B.Sc.");
+		author3.addFieldOfStudy(fieldComputer);
+		author3.setUserType(ApplicationUserType.AUTHOR);
+		author3 = applicationUserService.add(author3);
+
 		Journal journal1 = new Journal("1111-1111", "Journal One", false, editor1, 5);
 		journal1.addFieldOfStudy(fieldComputer);
 		journal1.addFieldOfStudy(fieldMathematics);
@@ -139,6 +163,7 @@ public class TestData {
 		journal1 = journalService.add(journal1);
 
 		Journal journal2 = new Journal("2222-2222", "Journal Two", true, editor3, 5);
+		journal2.addFieldOfStudy(fieldComputer);
 		journal2.addFieldOfStudy(fieldPhysics);
 		journal2.addReviewer(reviewer2);
 		journal2.addReviewer(reviewer3);
@@ -168,24 +193,68 @@ public class TestData {
 		coauthor1.setUserType(ApplicationUserType.COAUTHOR);
 		coauthor1 = applicationUserService.add(coauthor1);
 
-		Article article1 = new Article("Eiffel programming method",
+		Article article1 = new Article("Naučna centrala: Specifikacija projekta",
 				author1,
 				journal1,
-				"programming, language, method, Eiffel",
-				"Abstract of Eiffel programming method.",
+				"naučna centrala, programiranje, projekat, specifikacija",
+				"Specifikacija projekta na master studijama na Fakultetu tehničkih nauka",
 				fieldComputer,
-				"pdf-base64-encoded");
+				"naučna-centrala.pdf");
 		article1.addCoauthor(coauthor1);
 		article1 = articleService.add(article1);
 
-		Article article2 = new Article("The freedom of GNU",
-				author1,
+		Article article2 = new Article("Шта је слободни софтвер?",
+				author2,
 				journal2,
-				"GNU, Richard Stallman, freedom, software",
-				"GNU is an operating system that is free software-that is, it respects users' freedom.",
+				"ГНУ, слобода, софтвер, дефиниција",
+				"Дефиниција слободног софтвера; четири основне слободе",
 				fieldComputer,
-				"pdf-base64-encoded");
-		article2.addCoauthor(coauthor1);
+				"free-sw.pdf");
 		article2 = articleService.add(article2);
+
+		Article article3 = new Article("Зашто софтвер треба да буде слободан",
+				author2,
+				journal2,
+				"ГНУ, слобода, софтвер, зашто",
+				"Како власници правдају своју моћ; Аргумент против власништва",
+				fieldComputer,
+				"shouldbefree.pdf");
+		article3 = articleService.add(article3);
+
+		Article article4 = new Article("Зашто је „слободни софтвер“ бољи од „отвореног изворног кода“",
+				author2,
+				journal2,
+				"ГНУ, слобода, отворен изворни код",
+				"Однос између Покрета за слободни софтвер и Покрета за отворени изворни код.",
+				fieldComputer,
+				"free-software-for-freedom.pdf");
+		article4 = articleService.add(article4);
+
+		Article article5 = new Article("Збуњујуће речи и синтагме које би требало избегавати",
+				author2,
+				journal2,
+				"ГНУ, софтвер, збуњујуће речи",
+				"Постоје речи и синтагме које препоручујемо да избегавате, или их избегавате у одређеним контекстима и приликама.",
+				fieldComputer,
+				"words-to-avoid.pdf");
+		article5 = articleService.add(article5);
+
+		Article article6 = new Article("Врсте слободног и неслободног софтвера",
+				author2,
+				journal2,
+				"ГНУ, софтвер, копилефт, власнички, јавно власништво, Фривер",
+				"Врсте слободног и неслободног софтвера.",
+				fieldComputer,
+				"categories.pdf");
+		article6 = articleService.add(article6);
+
+		Article article7 = new Article("Penetraciono testiranje web aplikacija i servera",
+				author3,
+				journal1,
+				"Penetraciono testiranje, web, server, bezbednost",
+				"Penetraciono testiranje web aplikacija i servera upotrebom Nmap i Nikto alata.",
+				fieldComputer,
+				"penetraciono-testiranje.pdf");
+		article7 = articleService.add(article7);
 	}
 }
