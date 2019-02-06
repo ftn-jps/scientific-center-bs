@@ -14,6 +14,11 @@ angular.module('app')
 				component: 'myArticleList'
 			})
 			.state({
+				name: 'document',
+				url: '/document/{articleId:\\d*}',
+				component: 'myDocumentViewer'
+			})
+			.state({
 				name: 'submit',
 				url: '/submit',
 				template: '<h1>Submit an article</h1>'

@@ -7,4 +7,8 @@ angular.module('core.article')
 		this.getAll = () => {
 			return $http.get(`${url}/api/articles/`);
 		};
+
+		this.getPdf = (articleId) => {
+			return $http.get(`${url}/api/articles/${articleId}`);
+		};
 	});

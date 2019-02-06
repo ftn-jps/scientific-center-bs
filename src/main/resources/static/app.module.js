@@ -6,5 +6,6 @@ angular.module('app', [
 	'authentication',
 	'profile',
 	'core.authentication',
-	'articleList'
+	'articleList',
+	'documentViewer'
 ]);
