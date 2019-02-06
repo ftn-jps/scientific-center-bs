@@ -10,6 +10,8 @@ public interface ArticleService {
 
 	List<ArticleDto> findAll(ApplicationUser payer);
 
+	String getPdf(Long id, ApplicationUser forUser);
+
 	Article add(Article article);
 
 }

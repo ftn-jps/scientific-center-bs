@@ -1,12 +1,15 @@
 package ftnjps.scientificcenter.article;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import ftnjps.scientificcenter.transaction.TransactionService;
 import ftnjps.scientificcenter.users.ApplicationUser;
+import ftnjps.scientificcenter.utils.FileUtils;
 
 @Transactional(readOnly = true)
 @Service
@@ -16,6 +19,10 @@ public class ArticleServiceImpl implements ArticleService {
 	private ArticleRepository articleRepository;
 	@Autowired
 	private ArticleConverter articleConverter;
+	@Autowired
+	private TransactionService transactionService;
+	@Autowired
+	private FileUtils fileUtils;
 
 	@Override
 	public Article findOne(Long id) {
@@ -29,8 +36,23 @@ public class ArticleServiceImpl implements ArticleService {
 	}
 
 	@Override
+	public String getPdf(Long id, ApplicationUser forUser) {
+		Article article = articleRepository.findById(id).orElse(null);
+		if(article == null)
+			return null;
+		if( ! transactionService.checkPermission(article, forUser))
+			return null;
+		return fileUtils.readFromFile(article.getPdfName());
+	}
+
+	@Override
 	@Transactional(readOnly = false)
 	public Article add(Article article) {
+		if(article.getPdfContent() != null) {
+			String fileName = UUID.randomUUID().toString();
+			fileUtils.writeToFile(article.getPdfContent(), fileName);
+			article.setPdfName(fileName);
+		}
 		return articleRepository.save(article);
 	}
 

@@ -43,6 +43,15 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	public boolean checkPermission(Article article, ApplicationUser forUser) {
+		return transactionRepository
+				.findByPayerAndMerchantOrderIdAndIsFinalized(
+						forUser,
+						article.getId().intValue(),
+						true) != null || article.getJournal().isOpenAccess();
+	}
+
+	@Override
 	public Transaction addArticleTransaction(Article article, ApplicationUser payer) {
 		Transaction transaction = new Transaction(
 				article.getJournal().getPrice(),

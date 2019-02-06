@@ -1,12 +1,14 @@
 package ftnjps.scientificcenter.article;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,6 +36,23 @@ public class ArticleController {
 		if(articles == null || articles.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
+	@GetMapping("/{articleId}")
+	public ResponseEntity<?> getArticle(Principal principal,
+			@PathVariable Long articleId) {
+		ApplicationUser user;
+		if(principal == null)
+			user = null;
+		else
+			user = userService.findByEmail(principal.getName());
+
+		String pdfContent = articleService.getPdf(articleId, user);
+		if(pdfContent == null || pdfContent.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		HashMap<String, String> ret = new HashMap<>();
+		ret.put("pdfContent", pdfContent);
+		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
 }

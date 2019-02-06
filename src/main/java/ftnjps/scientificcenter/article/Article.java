@@ -8,9 +8,11 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -51,7 +53,12 @@ public class Article {
 	private FieldOfStudy fieldOfStudy;
 
 	@NotNull
-	private String pdf;
+	@JsonIgnore
+	private String pdfName;
+
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@Transient
+	private String pdfContent;
 
 	public Article() {}
 
@@ -61,7 +68,7 @@ public class Article {
 			String keywords,
 			String articleAbstract,
 			FieldOfStudy fieldOfStudy,
-			String pdf) {
+			String pdfName) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -69,7 +76,7 @@ public class Article {
 		this.keywords = keywords;
 		this.articleAbstract = articleAbstract;
 		this.fieldOfStudy = fieldOfStudy;
-		this.pdf = pdf;
+		this.pdfName = pdfName;
 	}
 
 	public Long getId() {
@@ -149,13 +156,20 @@ public class Article {
 		this.fieldOfStudy = fieldOfStudy;
 	}
 
-	public String getPdf() {
-		return pdf;
+	public String getPdfName() {
+		return pdfName;
 	}
 
-	public void setPdf(String pdf) {
-		this.pdf = pdf;
+	public void setPdfName(String pdfName) {
+		this.pdfName = pdfName;
 	}
 
+	public String getPdfContent() {
+		return pdfContent;
+	}
+
+	public void setPdfContent(String pdfContent) {
+		this.pdfContent = pdfContent;
+	}
 
 }

@@ -12,6 +12,7 @@ public interface TransactionService {
 	Transaction findBySuccessToken(String token);
 	Transaction findByErrorToken(String token);
 	List<Transaction> findPaidByPayer(ApplicationUser payer);
+	boolean checkPermission(Article article, ApplicationUser forUser);
 	Transaction addArticleTransaction(Article input, ApplicationUser payer);
 	Transaction finalizeArticleTransaction(Transaction input);
 	void removeArticleTransaction(Transaction input);

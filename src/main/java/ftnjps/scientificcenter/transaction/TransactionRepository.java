@@ -13,5 +13,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long>{
 	Transaction findBySuccessToken(String successToken);
 	Transaction findByErrorToken(String errorToken);
 	List<Transaction> findByPayerAndIsFinalized(ApplicationUser payer, boolean isFinalized);
+	Transaction findByPayerAndMerchantOrderIdAndIsFinalized(ApplicationUser payer, int merchantOrderId, boolean isFinalized);
 
 }
