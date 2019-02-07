@@ -2,5 +2,6 @@
 
 angular.module('header', [
 	'ui.router',
-	'core.authentication'
+	'core.authentication',
+	'core.transaction'
 ]);

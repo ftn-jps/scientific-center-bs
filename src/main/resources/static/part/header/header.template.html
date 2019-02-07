@@ -20,6 +20,13 @@
 						Articles
 				</a>
 			</li>
+			<li class="nav-item" ng-if="$root.user">
+				<a class="nav-link"
+					ng-click="$ctrl.subscribe(20)">
+						<i class="fab fa-paypal"></i>
+						Test Subscription
+				</a>
+			</li>
 			<li class="nav-item">
 				<a class="nav-link"
 					ui-sref="submit"

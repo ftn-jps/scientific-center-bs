@@ -40,7 +40,6 @@ public class Transaction {
 	@Size(min = 6, max = 100)
 	private String merchantPassword;
 
-	@Positive
 	private int merchantOrderId;
 
 	@JsonProperty(access = Access.READ_ONLY)
