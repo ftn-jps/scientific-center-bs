@@ -1,6 +1,7 @@
 'use strict';
 
 angular.module('core', [
-	'core.backendParam',
-	'core.authentication'
+	'core.authentication',
+	'core.article',
+	'core.transaction'
 ]);

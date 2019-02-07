@@ -1,14 +1,12 @@
 'use strict';
 
 angular.module('core.article')
-	.service('ArticleService', function(BackendParamService, $http) {
-		const url = BackendParamService.url;
-
+	.service('ArticleService', function($http) {
 		this.getAll = () => {
-			return $http.get(`${url}/api/articles/`);
+			return $http.get('/api/articles/');
 		};
 
 		this.getPdf = (articleId) => {
-			return $http.get(`${url}/api/articles/${articleId}`);
+			return $http.get(`/api/articles/${articleId}`);
 		};
 	});
