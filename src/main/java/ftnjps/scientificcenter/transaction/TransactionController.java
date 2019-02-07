@@ -32,8 +32,6 @@ public class TransactionController {
 	private ArticleService articleService;
 	@Autowired
 	RestTemplate restClientSelfSigned;
-	@Value("${server.url}")
-	private String serverUrl;
 	@Value("${gateway.url}")
 	private String gatewayUrl;
 
@@ -67,7 +65,8 @@ public class TransactionController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 		transactionService.finalizeArticleTransaction(transaction);
-		return new ResponseEntity<>("Payment successful. Return to the website: " + serverUrl, HttpStatus.OK);
+		return new ResponseEntity<>(
+				"Payment successful. Return to the <a href=\"/\">homepage</a>", HttpStatus.OK);
 	}
 
 	@GetMapping("/error/{token}")
@@ -77,7 +76,8 @@ public class TransactionController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
 		transactionService.removeArticleTransaction(transaction);
-		return new ResponseEntity<>("Payment unsuccessful. Return to the website: " + serverUrl, HttpStatus.OK);
+		return new ResponseEntity<>(
+				"Payment unsuccessful. Return to the <a href=\"/\">homepage</a>", HttpStatus.OK);
 	}
 
 }
