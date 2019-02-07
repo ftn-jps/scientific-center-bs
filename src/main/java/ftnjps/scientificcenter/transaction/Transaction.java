@@ -56,6 +56,8 @@ public class Transaction {
 	private ApplicationUser payer;
 	@JsonIgnore
 	boolean isFinalized = false;
+	@JsonIgnore
+	Long validUntilTimestamp;
 
 	public Transaction() {}
 
@@ -156,6 +158,14 @@ public class Transaction {
 
 	public void setFinalized(boolean isFinalized) {
 		this.isFinalized = isFinalized;
+	}
+
+	public Long getValidUntilTimestamp() {
+		return validUntilTimestamp;
+	}
+
+	public void setValidUntilTimestamp(Long validUntilTimestamp) {
+		this.validUntilTimestamp = validUntilTimestamp;
 	}
 
 }

@@ -17,6 +17,8 @@ import org.springframework.web.client.RestTemplate;
 
 import ftnjps.scientificcenter.article.Article;
 import ftnjps.scientificcenter.article.ArticleService;
+import ftnjps.scientificcenter.journal.Journal;
+import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
 import ftnjps.scientificcenter.users.ApplicationUserService;
 
@@ -30,6 +32,8 @@ public class TransactionController {
 	private ApplicationUserService userService;
 	@Autowired
 	private ArticleService articleService;
+	@Autowired
+	private JournalService journalService;
 	@Autowired
 	RestTemplate restClientSelfSigned;
 	@Value("${gateway.url}")
@@ -58,6 +62,29 @@ public class TransactionController {
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
+	@PostMapping("/subscribe/{journalId}")
+	public ResponseEntity<?> startSubscription(Principal principal,
+			@PathVariable Long journalId) {
+		if(principal == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		ApplicationUser payer = userService.findByEmail(principal.getName());
+
+		Journal journal = journalService.findOne(journalId);
+		if(journal == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		Transaction transaction = transactionService.addSubscriptionTransaction(journal, payer);
+
+		URI response = restClientSelfSigned.postForLocation(
+				gatewayUrl + "/api/subscriptions",
+				transaction);
+		String paymentUrl = response.toString();
+		HashMap<String,String> result = new HashMap<>();
+		result.put("paymentUrl", paymentUrl);
+
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
 	@GetMapping("/success/{token}")
 	public ResponseEntity<?> finalizeTransaction(@PathVariable String token) {
 		Transaction transaction = transactionService.findBySuccessToken(token);
@@ -67,6 +94,19 @@ public class TransactionController {
 		transactionService.finalizeArticleTransaction(transaction);
 		return new ResponseEntity<>(
 				"Payment successful. Return to the <a href=\"/\">homepage</a>", HttpStatus.OK);
+	}
+
+	@GetMapping("/success/{token}/{timestamp}")
+	public ResponseEntity<?> finalizeSubscription(@PathVariable String token,
+			@PathVariable Long timestamp) {
+		Transaction transaction = transactionService.findBySuccessToken(token);
+		if(transaction == null)
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+		transaction.setValidUntilTimestamp(timestamp);
+		transactionService.finalizeArticleTransaction(transaction);
+		return new ResponseEntity<>(
+				"Subscription successful. Return to the <a href=\"/\">homepage</a>", HttpStatus.OK);
 	}
 
 	@GetMapping("/error/{token}")

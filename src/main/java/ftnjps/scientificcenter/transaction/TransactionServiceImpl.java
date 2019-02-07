@@ -1,5 +1,6 @@
 package ftnjps.scientificcenter.transaction;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import ftnjps.scientificcenter.article.Article;
+import ftnjps.scientificcenter.journal.Journal;
 import ftnjps.scientificcenter.users.ApplicationUser;
 
 @Service
@@ -43,12 +45,27 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 
 	@Override
+	public List<Transaction> findSubscribedByPayer(ApplicationUser payer) {
+		return transactionRepository
+				.findByPayerAndIsFinalizedAndValidUntilTimestampLessThan(payer, true, new Date().getTime());
+	}
+
+	@Override
 	public boolean checkPermission(Article article, ApplicationUser forUser) {
 		return transactionRepository
 				.findByPayerAndMerchantOrderIdAndIsFinalized(
 						forUser,
 						article.getId().intValue(),
 						true) != null || article.getJournal().isOpenAccess();
+	}
+
+	@Override
+	public boolean checkSubscribed(Journal journal, ApplicationUser forUser) {
+		return transactionRepository
+				.findByPayerAndMerchantIdAndIsFinalized(
+						forUser,
+						journal.getIssn(),
+						true) != null || journal.isOpenAccess();
 	}
 
 	@Override
@@ -65,6 +82,22 @@ public class TransactionServiceImpl implements TransactionService {
 
 		return transactionRepository.save(transaction);
 	}
+
+	@Override
+	public Transaction addSubscriptionTransaction(Journal input, ApplicationUser payer) {
+		Transaction transaction = new Transaction(
+				input.getPrice(),
+				input.getIssn(),
+				null,
+				-1,
+				payer);
+		transaction.setSuccessUrl(serverUrl + "/api/transactions/success/" + transaction.getSuccessToken());
+		transaction.setErrorUrl(serverUrl + "/api/transactions/error/" + transaction.getErrorToken());
+		transaction.setFailUrl(transaction.getErrorUrl());
+
+		return transactionRepository.save(transaction);
+	}
+
 
 	@Override
 	public Transaction finalizeArticleTransaction(Transaction input) {
