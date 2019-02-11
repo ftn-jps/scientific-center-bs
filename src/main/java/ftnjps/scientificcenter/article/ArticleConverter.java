@@ -36,7 +36,7 @@ public class ArticleConverter {
 	}
 
 	public ArticleDto toDto(Article article, boolean hasAccess, String searchPreview) {
-		return new ArticleDto(article.getId(),
+		ArticleDto dto = new ArticleDto(article.getId(),
 				article.getTitle(),
 				article.getAuthor(),
 				article.getJournal(),
@@ -45,6 +45,8 @@ public class ArticleConverter {
 				article.getFieldOfStudy(),
 				hasAccess,
 				searchPreview);
+		dto.setCoauthors(article.getCoauthors());
+		return dto;
 	}
 
 	public List<ArticleDto> toDto(SearchHits hits, ApplicationUser payer) {

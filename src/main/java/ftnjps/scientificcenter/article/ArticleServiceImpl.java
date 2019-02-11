@@ -92,6 +92,14 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public boolean index(Article article) {
+		String authors = article.getAuthor().getName() + " "
+				+ article.getAuthor().getLastName()
+				+ ", ";
+		for(ApplicationUser coauthor : article.getCoauthors()) {
+			authors += coauthor.getName() + " "
+					+ coauthor.getLastName()
+					+ ", ";
+		}
 		String pdfContent = fileUtils.readFromFile(article.getPdfName());
 		IndexRequest indexRequest = new IndexRequest("articles", "_doc", article.getId().toString())
 				.source("journalName", article.getJournal().getName(),
@@ -99,7 +107,8 @@ public class ArticleServiceImpl implements ArticleService {
 						"keywords", article.getKeywords(),
 						"articleAbstract", article.getArticleAbstract(),
 						"pdfContent", pdfContent,
-						"fieldOfStudy", article.getFieldOfStudy().getName());
+						"fieldOfStudy", article.getFieldOfStudy().getName(),
+						"authors", authors);
 		indexRequest.setPipeline("attachment");
 		try {
 			elasticClient.index(indexRequest, RequestOptions.DEFAULT);
@@ -129,6 +138,7 @@ public class ArticleServiceImpl implements ArticleService {
 		highlightBuilder.field(new HighlightBuilder.Field("articleAbstract"));
 		highlightBuilder.field(new HighlightBuilder.Field("attachment.content"));
 		highlightBuilder.field(new HighlightBuilder.Field("fieldOfStudy"));
+		highlightBuilder.field(new HighlightBuilder.Field("authors"));
 		highlightBuilder.preTags("<span class=\"highlight\">");
 		highlightBuilder.postTags("</span>");
 		searchSourceBuilder.highlighter(highlightBuilder);
@@ -184,6 +194,7 @@ public class ArticleServiceImpl implements ArticleService {
 		highlightBuilder.field(new HighlightBuilder.Field("articleAbstract"));
 		highlightBuilder.field(new HighlightBuilder.Field("attachment.content"));
 		highlightBuilder.field(new HighlightBuilder.Field("fieldOfStudy"));
+		highlightBuilder.field(new HighlightBuilder.Field("authors"));
 		highlightBuilder.preTags("<span class=\"highlight\">");
 		highlightBuilder.postTags("</span>");
 		searchSourceBuilder.highlighter(highlightBuilder);

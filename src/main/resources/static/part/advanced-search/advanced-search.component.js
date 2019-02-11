@@ -25,6 +25,7 @@ angular.module('advancedSearch')
 				{ code: 'articleAbstract', name: 'Abstract' },
 				{ code: 'attachment', name: 'Attachment content' },
 				{ code: 'fieldOfStudy', name: 'Field of study' },
+				{ code: 'authors', name: 'Authors' },
 			];
 		}
 	});
