@@ -4,10 +4,13 @@ angular.module('articleList')
 	.component('myArticleList', {
 		templateUrl: '/part/article-list/article-list.template.html',
 		controller: function(ArticleService, TransactionService) {
-			ArticleService.getAll()
-				.then((response) => {
-					this.articles = response.data;
-				});
+			this.getAll = () => {
+				ArticleService.getAll()
+					.then((response) => {
+						this.articles = response.data;
+					});
+			};
+			this.getAll();
 
 			this.order = null;
 			this.isReverse = true;
@@ -25,7 +28,7 @@ angular.module('articleList')
 
 			this.searchAll = () => {
 				if(!this.query)
-					this.resetSearch();
+					this.getAll();
 				ArticleService.searchAll(this.query)
 					.then((response) => {
 						this.articles = response.data;
@@ -33,7 +36,16 @@ angular.module('articleList')
 						this.articles = null;
 					});
 			};
+			this.searchAdvanced = (advancedQuery) => {
+				this.advancedQuery = advancedQuery;
+			};
+
+			this.advancedEnabled = false;
+			this.advancedReset = false;
 			this.resetSearch = () => {
+				this.query = null;
+				this.advancedQuery = null;
+				this.advancedReset = !this.advancedReset;
 				ArticleService.getAll()
 					.then((response) => {
 						this.articles = response.data;

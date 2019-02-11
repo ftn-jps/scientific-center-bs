@@ -3,5 +3,6 @@
 angular.module('articleList', [
 	'core.article',
 	'core.transaction',
-	'ngSanitize'
+	'ngSanitize',
+	'advancedSearch'
 ]);

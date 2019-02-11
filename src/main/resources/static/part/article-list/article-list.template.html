@@ -18,10 +18,21 @@
 						<i class="fas fa-backspace"></i>
 						Reset search
 					</button>
+					<button class="btn btn-custom"
+						ng-click="$ctrl.advancedEnabled = !$ctrl.advancedEnabled">
+						<i class="fas fa-th-list"></i>
+						Advanced search
+					</button>
 				</div>
 			</div>
 		</div>
 	</form>
+	<div ng-show="$ctrl.advancedEnabled" class="panel">
+		<my-advanced-search
+			reset="$ctrl.advancedReset"
+			on-change="$ctrl.searchAdvanced">
+		</my-advanced-search>
+	</div>
 	<!--Order box-->
 	<div>
 		Order by:
