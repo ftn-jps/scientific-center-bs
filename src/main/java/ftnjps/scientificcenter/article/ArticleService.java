@@ -1,6 +1,7 @@
 package ftnjps.scientificcenter.article;
 
 import java.util.List;
+import java.util.Map;
 
 import ftnjps.scientificcenter.users.ApplicationUser;
 
@@ -17,5 +18,6 @@ public interface ArticleService {
 	void createIndex();
 	boolean index(Article article);
 	List<ArticleDto> searchAll(String query, ApplicationUser payer);
+	List<ArticleDto> searchAdvanced(Map<String, Object> query, ApplicationUser payer);
 
 }

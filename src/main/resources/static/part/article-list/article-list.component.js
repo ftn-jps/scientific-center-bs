@@ -37,14 +37,18 @@ angular.module('articleList')
 					});
 			};
 			this.searchAdvanced = (advancedQuery) => {
-				this.advancedQuery = advancedQuery;
+				ArticleService.searchAdvanced(advancedQuery)
+					.then((response) => {
+						this.articles = response.data;
+					}, () => {
+						this.articles = null;
+					});
 			};
 
 			this.advancedEnabled = false;
 			this.advancedReset = false;
 			this.resetSearch = () => {
 				this.query = null;
-				this.advancedQuery = null;
 				this.advancedReset = !this.advancedReset;
 				ArticleService.getAll()
 					.then((response) => {

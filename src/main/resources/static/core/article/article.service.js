@@ -13,4 +13,8 @@ angular.module('core.article')
 		this.searchAll = (query) => {
 			return $http.get(`/api/articles/search/${query}`);
 		};
+
+		this.searchAdvanced = (query) => {
+			return $http.put('/api/articles/search/', query);
+		};
 	});

@@ -3,12 +3,15 @@ package ftnjps.scientificcenter.article;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -65,6 +68,21 @@ public class ArticleController {
 			payer = userService.findByEmail(principal.getName());
 
 		List<ArticleDto> articles = articleService.searchAll(query, payer);
+		if(articles == null || articles.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
+	@PutMapping("/search/")
+	public ResponseEntity<List<ArticleDto>> searchAdvanced(Principal principal,
+			@RequestBody Map<String, Object> query) {
+		ApplicationUser payer;
+		if(principal == null)
+			payer = null;
+		else
+			payer = userService.findByEmail(principal.getName());
+
+		List<ArticleDto> articles = articleService.searchAdvanced(query, payer);
 		if(articles == null || articles.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(articles, HttpStatus.OK);

@@ -1,5 +1,5 @@
 <form class="form-row justify-content-center">
-	<div class="col-md-6">
+	<div class="col-lg-6">
 		<!-- Journal Name -->
 		<div class="form-group input-group">
 			<div class="input-group-prepend">
@@ -11,7 +11,7 @@
 				id="inputJournal"
 				class="form-control"
 				placeholder="Search by journal name"
-				ng-model="$ctrl.query.journalName"
+				ng-model="$ctrl.query.journalName.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -19,14 +19,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputJournalOptional">
+					<input type="checkbox" id="inputJournalOptional"
+						ng-model="$ctrl.query.journalName.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputJournalPhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputJournalPhrase">
+					<input type="checkbox" id="inputJournalPhrase"
+						ng-model="$ctrl.query.journalName.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
@@ -41,7 +45,7 @@
 				id="inputTitle"
 				class="form-control"
 				placeholder="Search by title"
-				ng-model="$ctrl.query.title"
+				ng-model="$ctrl.query.title.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -49,14 +53,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputTitleOptional">
+					<input type="checkbox" id="inputTitleOptional"
+						ng-model="$ctrl.query.title.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputTitlePhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputTitlePhrase">
+					<input type="checkbox" id="inputTitlePhrase"
+						ng-model="$ctrl.query.title.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
@@ -71,7 +79,7 @@
 				id="inputKeywords"
 				class="form-control"
 				placeholder="Search by keywords"
-				ng-model="$ctrl.query.keywords"
+				ng-model="$ctrl.query.keywords.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -79,14 +87,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputKeywordsOptional">
+					<input type="checkbox" id="inputKeywordsOptional"
+						ng-model="$ctrl.query.keywords.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputKeywordsPhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputKeywordsPhrase">
+					<input type="checkbox" id="inputKeywordsPhrase"
+						ng-model="$ctrl.query.keywords.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
@@ -101,7 +113,7 @@
 				id="inputAbstract"
 				class="form-control"
 				placeholder="Search by abstract"
-				ng-model="$ctrl.query.articleAbstract"
+				ng-model="$ctrl.query.articleAbstract.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -109,14 +121,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputAbstractOptional">
+					<input type="checkbox" id="inputAbstractOptional"
+						ng-model="$ctrl.query.articleAbstract.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputAbstractPhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputAbstractPhrase">
+					<input type="checkbox" id="inputAbstractPhrase"
+						ng-model="$ctrl.query.articleAbstract.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
@@ -131,7 +147,7 @@
 				id="inputAttachment"
 				class="form-control"
 				placeholder="Search by attachment content"
-				ng-model="$ctrl.query.attachment.content"
+				ng-model="$ctrl.query.attachment.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -139,14 +155,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputAttachmentOptional">
+					<input type="checkbox" id="inputAttachmentOptional"
+						ng-model="$ctrl.query.attachment.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputAttachmentPhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputAttachmentPhrase">
+					<input type="checkbox" id="inputAttachmentPhrase"
+						ng-model="$ctrl.query.attachment.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
@@ -161,7 +181,7 @@
 				id="inputFieldOfStudy"
 				class="form-control"
 				placeholder="Search by field of study"
-				ng-model="$ctrl.query.fieldOfStudy"
+				ng-model="$ctrl.query.fieldOfStudy.query"
 				ng-change="$ctrl.change()"/>
 			<div class="input-group-append">
 				<div class="input-group-text">
@@ -169,14 +189,18 @@
 						<i class="fas fa-question-circle"></i>
 						Optional?
 					</label>
-					<input type="checkbox" id="inputFieldOfStudyOptional">
+					<input type="checkbox" id="inputFieldOfStudyOptional"
+						ng-model="$ctrl.query.fieldOfStudy.isOptional"
+						ng-change="$ctrl.change()">
 				</div>
 				<div class="input-group-text">
 					<label class="form-check-label mr-2" for="inputFieldOfStudyPhrase">
 						<i class="fas fa-quote-right"></i>
 						Phrase?
 					</label>
-					<input type="checkbox" id="inputFieldOfStudyPhrase">
+					<input type="checkbox" id="inputFieldOfStudyPhrase"
+						ng-model="$ctrl.query.fieldOfStudy.isPhrase"
+						ng-change="$ctrl.change()">
 				</div>
 			</div>
 		</div>
