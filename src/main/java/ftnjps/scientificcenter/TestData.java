@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import ftnjps.scientificcenter.article.Article;
 import ftnjps.scientificcenter.article.ArticleService;
+import ftnjps.scientificcenter.elasticsearch.AttachmentPipeline;
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudy;
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
 import ftnjps.scientificcenter.journal.Journal;
@@ -27,8 +28,13 @@ public class TestData {
 	@Autowired
 	private ArticleService articleService;
 
+	@Autowired
+	AttachmentPipeline attachmentPipeline;
+
 	@PostConstruct
 	private void init() {
+		attachmentPipeline.create();
+
 		FieldOfStudy fieldAstronomy = fieldOfStudyService.add(
 				new FieldOfStudy("Astronomy"));
 		FieldOfStudy fieldBiology = fieldOfStudyService.add(
