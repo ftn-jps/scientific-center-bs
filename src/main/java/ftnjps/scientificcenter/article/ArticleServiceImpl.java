@@ -55,7 +55,9 @@ public class ArticleServiceImpl implements ArticleService {
 			fileUtils.writeToFile(article.getPdfContent(), fileName);
 			article.setPdfName(fileName);
 		}
-		return articleRepository.save(article);
+		article = articleRepository.save(article);
+		index(article);
+		return article;
 	}
 
 	@Override
@@ -68,6 +70,26 @@ public class ArticleServiceImpl implements ArticleService {
 		} catch (ElasticsearchException e) {
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public boolean index(Article article) {
+		String pdfContent = fileUtils.readFromFile(article.getPdfName());
+		IndexRequest indexRequest = new IndexRequest("articles", "_doc", article.getId().toString())
+				.source("journalName", article.getJournal().getName(),
+						"title", article.getTitle(),
+						"keywords", article.getKeywords(),
+						"articleAbstract", article.getArticleAbstract(),
+						"pdfContent", pdfContent,
+						"fieldOfStudy", article.getFieldOfStudy().getName());
+		indexRequest.setPipeline("attachment");
+		try {
+			elasticClient.index(indexRequest, RequestOptions.DEFAULT);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
 		}
 	}
 
