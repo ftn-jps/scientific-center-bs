@@ -2,5 +2,6 @@
 
 angular.module('articleList', [
 	'core.article',
-	'core.transaction'
+	'core.transaction',
+	'ngSanitize'
 ]);

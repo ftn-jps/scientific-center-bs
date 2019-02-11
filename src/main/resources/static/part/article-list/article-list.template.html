@@ -7,11 +7,17 @@
 				<input type="text"
 					class="form-control"
 					placeholder="Search"
+					ng-model="$ctrl.query"
+					ng-change="$ctrl.searchAll()"
 					autofocus/>
 				<div class="input-group-append">
 					<span class="input-group-text">
 						<i class="fas fa-search"></i>
 					</span>
+					<button class="btn btn-custom" ng-click="$ctrl.resetSearch()">
+						<i class="fas fa-backspace"></i>
+						Reset search
+					</button>
 				</div>
 			</div>
 		</div>
@@ -103,6 +109,12 @@
 						<strong>Abstract:</strong>
 						<p class="ml-3">
 							{{article.articleAbstract}}
+						</p>
+					</p>
+					<p class="card-text" ng-if="article.searchPreview">
+						<i class="fas fa-search"></i>
+						<strong>Search highlight:</strong>
+						<p ng-bind-html="article.searchPreview">
 						</p>
 					</p>
 				</div>

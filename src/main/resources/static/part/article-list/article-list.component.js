@@ -22,5 +22,22 @@ angular.module('articleList')
 						window.location = result.data.paymentUrl;
 					});
 			};
+
+			this.searchAll = () => {
+				if(!this.query)
+					this.resetSearch();
+				ArticleService.searchAll(this.query)
+					.then((response) => {
+						this.articles = response.data;
+					}, () => {
+						this.articles = null;
+					});
+			};
+			this.resetSearch = () => {
+				ArticleService.getAll()
+					.then((response) => {
+						this.articles = response.data;
+					});
+			};
 		}
 	});
