@@ -17,5 +17,14 @@ angular.module('advancedSearch')
 			this.change = () => {
 				this.onChange(this.query);
 			};
+
+			this.fields = [
+				{ code: 'journalName', name: 'Journal Name' },
+				{ code: 'title', name: 'Title' },
+				{ code: 'keywords', name: 'Keywords' },
+				{ code: 'articleAbstract', name: 'Abstract' },
+				{ code: 'attachment', name: 'Attachment content' },
+				{ code: 'fieldOfStudy', name: 'Field of study' },
+			];
 		}
 	});
