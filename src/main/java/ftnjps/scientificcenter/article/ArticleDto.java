@@ -19,6 +19,7 @@ public class ArticleDto {
 	private FieldOfStudy fieldOfStudy;
 
 	private boolean hasAccess;
+	private String searchPreview;
 
 	public ArticleDto() {}
 
@@ -29,7 +30,8 @@ public class ArticleDto {
 			String keywords,
 			String articleAbstract,
 			FieldOfStudy fieldOfStudy,
-			boolean hasAccess) {
+			boolean hasAccess,
+			String searchPreview) {
 		this.id = id;
 		this.title = title;
 		this.author = author;
@@ -38,6 +40,7 @@ public class ArticleDto {
 		this.articleAbstract = articleAbstract;
 		this.fieldOfStudy = fieldOfStudy;
 		this.hasAccess = hasAccess;
+		this.searchPreview = searchPreview;
 	}
 
 	public Long getId() {
@@ -114,5 +117,13 @@ public class ArticleDto {
 
 	public void setHasAccess(boolean hasAccess) {
 		this.hasAccess = hasAccess;
+	}
+
+	public String getSearchPreview() {
+		return searchPreview;
+	}
+
+	public void setSearchPreview(String searchPreview) {
+		this.searchPreview = searchPreview;
 	}
 }

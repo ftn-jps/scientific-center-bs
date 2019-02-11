@@ -14,21 +14,23 @@ public class ArticleConverter {
 
 	@Autowired
 	private TransactionService transactionService;
+	@Autowired
+	private ArticleService articleService;
 
-	List<ArticleDto> toDto(List<Article> articles, ApplicationUser payer) {
+	public List<ArticleDto> toDto(List<Article> articles, ApplicationUser payer) {
 		List<ArticleDto> result = new ArrayList<>();
 		for(Article article : articles) {
 			if(transactionService.checkPermission(article, payer)) {
-				result.add(toDto(article, true));
+				result.add(toDto(article, true, null));
 			}
 			else {
-				result.add(toDto(article, false));
+				result.add(toDto(article, false, null));
 			}
 		}
 		return result;
 	}
 
-	ArticleDto toDto(Article article, boolean hasAccess) {
+	public ArticleDto toDto(Article article, boolean hasAccess, String pdfPreview) {
 		return new ArticleDto(article.getId(),
 				article.getTitle(),
 				article.getAuthor(),
@@ -36,7 +38,8 @@ public class ArticleConverter {
 				article.getKeywords(),
 				article.getArticleAbstract(),
 				article.getFieldOfStudy(),
-				hasAccess);
+				hasAccess,
+				pdfPreview);
 	}
 
 }
