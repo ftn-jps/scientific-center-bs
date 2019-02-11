@@ -55,4 +55,19 @@ public class ArticleController {
 		return new ResponseEntity<>(ret, HttpStatus.OK);
 	}
 
+	@GetMapping("/search/{query}")
+	public ResponseEntity<List<ArticleDto>> searchAll(Principal principal,
+			@PathVariable String query) {
+		ApplicationUser payer;
+		if(principal == null)
+			payer = null;
+		else
+			payer = userService.findByEmail(principal.getName());
+
+		List<ArticleDto> articles = articleService.searchAll(query, payer);
+		if(articles == null || articles.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
 }

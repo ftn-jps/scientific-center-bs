@@ -1,8 +1,21 @@
 package ftnjps.scientificcenter.article;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import org.elasticsearch.ElasticsearchException;
+import org.elasticsearch.action.admin.indices.create.CreateIndexRequest;
+import org.elasticsearch.action.index.IndexRequest;
+import org.elasticsearch.action.search.SearchRequest;
+import org.elasticsearch.action.search.SearchResponse;
+import org.elasticsearch.client.RequestOptions;
+import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.index.query.QueryBuilders;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -90,6 +103,39 @@ public class ArticleServiceImpl implements ArticleService {
 		} catch (IOException e) {
 			e.printStackTrace();
 			return false;
+		}
+	}
+
+	/**
+	 * Search all Article fields using Simple Query String Query
+	 * @param query
+	 */
+	@Override
+	public List<ArticleDto> searchAll(String query, ApplicationUser payer) {
+		SearchRequest searchRequest = new SearchRequest("articles");
+
+		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
+		searchSourceBuilder.query(QueryBuilders.simpleQueryStringQuery(query));
+		searchRequest.source(searchSourceBuilder);
+
+		HighlightBuilder highlightBuilder = new HighlightBuilder();
+		highlightBuilder.field(new HighlightBuilder.Field("journalName"));
+		highlightBuilder.field(new HighlightBuilder.Field("title"));
+		highlightBuilder.field(new HighlightBuilder.Field("keywords"));
+		highlightBuilder.field(new HighlightBuilder.Field("articleAbstract"));
+		highlightBuilder.field(new HighlightBuilder.Field("attachment.content"));
+		highlightBuilder.field(new HighlightBuilder.Field("fieldOfStudy"));
+		highlightBuilder.preTags("<span class=\"highlight\">");
+		highlightBuilder.postTags("</span>");
+		searchSourceBuilder.highlighter(highlightBuilder);
+
+		try {
+			SearchResponse searchResponse = elasticClient.search(searchRequest, RequestOptions.DEFAULT);
+			SearchHits hits = searchResponse.getHits();
+			return articleConverter.toDto(hits, payer);
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 

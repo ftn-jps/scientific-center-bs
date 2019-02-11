@@ -2,7 +2,12 @@ package ftnjps.scientificcenter.article;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import org.elasticsearch.common.text.Text;
+import org.elasticsearch.search.SearchHit;
+import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +35,7 @@ public class ArticleConverter {
 		return result;
 	}
 
-	public ArticleDto toDto(Article article, boolean hasAccess, String pdfPreview) {
+	public ArticleDto toDto(Article article, boolean hasAccess, String searchPreview) {
 		return new ArticleDto(article.getId(),
 				article.getTitle(),
 				article.getAuthor(),
@@ -39,7 +44,32 @@ public class ArticleConverter {
 				article.getArticleAbstract(),
 				article.getFieldOfStudy(),
 				hasAccess,
-				pdfPreview);
+				searchPreview);
+	}
+
+	public List<ArticleDto> toDto(SearchHits hits, ApplicationUser payer) {
+		List<ArticleDto> result = new ArrayList<>();
+		for(SearchHit hit : hits) {
+			Article article = articleService.findOne(Long.parseLong(hit.getId()));
+
+			// Get highlight preview
+			Map<String, HighlightField> highlightFields = hit.getHighlightFields();
+			String searchPreview = "";
+			for(HighlightField highlight : highlightFields.values()) {
+				Text[] fragments = highlight.fragments();
+				for(Text fragment : fragments) {
+					searchPreview += fragment.string() + " … ";
+				}
+			}
+
+			if(transactionService.checkPermission(article, payer)) {
+				result.add(toDto(article, true, searchPreview));
+			}
+			else {
+				result.add(toDto(article, false, searchPreview));
+			}
+		}
+		return result;
 	}
 
 }

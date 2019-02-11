@@ -16,5 +16,6 @@ public interface ArticleService {
 
 	void createIndex();
 	boolean index(Article article);
+	List<ArticleDto> searchAll(String query, ApplicationUser payer);
 
 }
