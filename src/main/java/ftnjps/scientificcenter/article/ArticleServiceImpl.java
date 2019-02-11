@@ -157,6 +157,7 @@ public class ArticleServiceImpl implements ArticleService {
 			Map<String, Object> field = (Map<String, Object>) query.get(key);
 
 			QueryBuilder leafQuery = null;
+			key = key.equals("attachment") ? key + ".content" : key;
 			if( BooleanUtils.isTrue((Boolean) field.get("isPhrase"))) {
 				leafQuery = QueryBuilders.matchPhraseQuery(key, field.get("query"));
 			}

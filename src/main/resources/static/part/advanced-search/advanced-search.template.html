@@ -20,6 +20,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputJournalOptional"
+						ng-disabled="!$ctrl.query.journalName.query"
 						ng-model="$ctrl.query.journalName.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -29,6 +30,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputJournalPhrase"
+						ng-disabled="!$ctrl.query.journalName.query"
 						ng-model="$ctrl.query.journalName.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
@@ -54,6 +56,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputTitleOptional"
+						ng-disabled="!$ctrl.query.title.query"
 						ng-model="$ctrl.query.title.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -63,6 +66,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputTitlePhrase"
+						ng-disabled="!$ctrl.query.title.query"
 						ng-model="$ctrl.query.title.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
@@ -88,6 +92,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputKeywordsOptional"
+						ng-disabled="!$ctrl.query.keywords.query"
 						ng-model="$ctrl.query.keywords.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -97,6 +102,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputKeywordsPhrase"
+						ng-disabled="!$ctrl.query.title.query"
 						ng-model="$ctrl.query.keywords.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
@@ -122,6 +128,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputAbstractOptional"
+						ng-disabled="!$ctrl.query.articleAbstract.query"
 						ng-model="$ctrl.query.articleAbstract.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -131,6 +138,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputAbstractPhrase"
+						ng-disabled="!$ctrl.query.articleAbstract.query"
 						ng-model="$ctrl.query.articleAbstract.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
@@ -156,6 +164,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputAttachmentOptional"
+						ng-disabled="!$ctrl.query.attachment.query"
 						ng-model="$ctrl.query.attachment.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -165,6 +174,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputAttachmentPhrase"
+						ng-disabled="!$ctrl.query.attachment.query"
 						ng-model="$ctrl.query.attachment.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
@@ -190,6 +200,7 @@
 						Optional?
 					</label>
 					<input type="checkbox" id="inputFieldOfStudyOptional"
+						ng-disabled="!$ctrl.query.fieldOfStudy.query"
 						ng-model="$ctrl.query.fieldOfStudy.isOptional"
 						ng-change="$ctrl.change()">
 				</div>
@@ -199,6 +210,7 @@
 						Phrase?
 					</label>
 					<input type="checkbox" id="inputFieldOfStudyPhrase"
+						ng-disabled="!$ctrl.query.fieldOfStudy.query"
 						ng-model="$ctrl.query.fieldOfStudy.isPhrase"
 						ng-change="$ctrl.change()">
 				</div>
