@@ -23,6 +23,8 @@ public class ArticleServiceImpl implements ArticleService {
 	private TransactionService transactionService;
 	@Autowired
 	private FileUtils fileUtils;
+	@Autowired
+	RestHighLevelClient elasticClient;
 
 	@Override
 	public Article findOne(Long id) {
@@ -54,6 +56,19 @@ public class ArticleServiceImpl implements ArticleService {
 			article.setPdfName(fileName);
 		}
 		return articleRepository.save(article);
+	}
+
+	@Override
+	public void createIndex() {
+		CreateIndexRequest request = new CreateIndexRequest("articles");
+		request.settings(Settings.builder()
+				.put("analysis.analyzer.default.type", "serbian_analyzer"));
+		try {
+			elasticClient.indices().create(request, RequestOptions.DEFAULT);
+		} catch (ElasticsearchException e) {
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

@@ -34,6 +34,7 @@ public class TestData {
 	@PostConstruct
 	private void init() {
 		attachmentPipeline.create();
+		articleService.createIndex();
 
 		FieldOfStudy fieldAstronomy = fieldOfStudyService.add(
 				new FieldOfStudy("Astronomy"));

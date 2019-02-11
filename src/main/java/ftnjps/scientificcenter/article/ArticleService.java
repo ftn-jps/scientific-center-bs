@@ -14,4 +14,6 @@ public interface ArticleService {
 
 	Article add(Article article);
 
+	void createIndex();
+
 }
