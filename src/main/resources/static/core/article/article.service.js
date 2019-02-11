@@ -9,4 +9,8 @@ angular.module('core.article')
 		this.getPdf = (articleId) => {
 			return $http.get(`/api/articles/${articleId}`);
 		};
+
+		this.searchAll = (query) => {
+			return $http.get(`/api/articles/search/${query}`);
+		};
 	});

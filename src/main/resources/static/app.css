@@ -99,3 +99,8 @@ my-sidebar {
 .separate::after {
 	content: ' | ';
 }
+
+.highlight {
+	color: var(--selected_bg_color);
+	font-weight: bold;
+}
