@@ -15,6 +15,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHits;
@@ -128,7 +129,8 @@ public class ArticleServiceImpl implements ArticleService {
 		SearchRequest searchRequest = new SearchRequest("articles");
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(QueryBuilders.simpleQueryStringQuery(query));
+		searchSourceBuilder.query(
+				QueryBuilders.simpleQueryStringQuery(query).defaultOperator(Operator.AND));
 		searchRequest.source(searchSourceBuilder);
 
 		HighlightBuilder highlightBuilder = new HighlightBuilder();
