@@ -1,6 +1,7 @@
 package ftnjps.scientificcenter.article;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -97,15 +98,19 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public boolean index(Article article) {
-		String authors = article.getAuthor().getName() + " "
-				+ article.getAuthor().getLastName()
-				+ ", ";
+		// Prepare authors and geolocations
+		List<String> authors = new ArrayList<>();
+		List<String> locations = new ArrayList<>();
+		authors.add(article.getAuthor().getName() + " " + article.getAuthor().getLastName());
+		locations.add(article.getAuthor().getLocation());
 		for(ApplicationUser coauthor : article.getCoauthors()) {
-			authors += coauthor.getName() + " "
-					+ coauthor.getLastName()
-					+ ", ";
+			authors.add(coauthor.getName() + " " + coauthor.getLastName());
+			locations.add(coauthor.getLocation());
 		}
+
+		// Prepare PDF
 		String pdfContent = fileUtils.readFromFile(article.getPdfName());
+
 		IndexRequest indexRequest = new IndexRequest("articles", "_doc", article.getId().toString())
 				.source("journalName", article.getJournal().getName(),
 						"title", article.getTitle(),
@@ -114,7 +119,7 @@ public class ArticleServiceImpl implements ArticleService {
 						"pdfContent", pdfContent,
 						"fieldOfStudy", article.getFieldOfStudy().getName(),
 						"authors", authors,
-						"location", article.getAuthor().getLocation());
+						"location", locations);
 		indexRequest.setPipeline("attachment");
 		try {
 			elasticClient.index(indexRequest, RequestOptions.DEFAULT);
