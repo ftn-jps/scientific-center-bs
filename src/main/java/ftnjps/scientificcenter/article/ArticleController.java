@@ -8,6 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -98,6 +99,17 @@ public class ArticleController {
 			payer = userService.findByEmail(principal.getName());
 
 		List<ArticleDto> articles = articleService.searchMoreLikeThis(articleId, payer);
+		if(articles == null || articles.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
+	@GetMapping("/search/geodistance")
+	@PreAuthorize("isAuthenticated()")
+	public ResponseEntity<List<ArticleDto>> searchGeodistance(Principal principal) {
+		ApplicationUser payer = userService.findByEmail(principal.getName());
+
+		List<ArticleDto> articles = articleService.searchGeodistance(payer.getLocation(), payer);
 		if(articles == null || articles.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		return new ResponseEntity<>(articles, HttpStatus.OK);

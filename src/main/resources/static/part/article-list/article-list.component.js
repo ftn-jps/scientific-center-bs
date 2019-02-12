@@ -52,6 +52,14 @@ angular.module('articleList')
 						this.articles = null;
 					});
 			};
+			this.searchGeodistance = () => {
+				ArticleService.searchGeodistance()
+					.then((response) => {
+						this.articles = response.data;
+					}, () => {
+						this.articles = null;
+					});
+			};
 
 			this.advancedEnabled = false;
 			this.advancedReset = false;

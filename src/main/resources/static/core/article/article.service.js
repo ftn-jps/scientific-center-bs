@@ -21,4 +21,8 @@ angular.module('core.article')
 		this.searchMoreLikeThis = (articleId) => {
 			return $http.get(`/api/articles/search/more-like-this/${articleId}`);
 		};
+
+		this.searchGeodistance = () => {
+			return $http.get('/api/articles/search/geodistance');
+		};
 	});

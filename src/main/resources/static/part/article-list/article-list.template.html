@@ -18,10 +18,16 @@
 						<i class="fas fa-backspace"></i>
 						Reset search
 					</button>
-					<button class="btn btn-custom"
+					<button class="btn btn-custom mx-1"
 						ng-click="$ctrl.advancedEnabled = !$ctrl.advancedEnabled">
 						<i class="fas fa-th-list"></i>
 						Advanced search
+					</button>
+					<button class="btn btn-custom"
+						ng-if="$root.user"
+						ng-click="$ctrl.searchGeodistance()">
+						<i class="fas fa-map-marker-alt"></i>
+						Geodistance
 					</button>
 				</div>
 			</div>

@@ -13,7 +13,9 @@ import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
+import org.elasticsearch.common.geo.GeoPoint;
 import org.elasticsearch.common.settings.Settings;
+import org.elasticsearch.common.unit.DistanceUnit;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.MoreLikeThisQueryBuilder.Item;
 import org.elasticsearch.index.query.Operator;
@@ -84,6 +86,7 @@ public class ArticleServiceImpl implements ArticleService {
 		CreateIndexRequest request = new CreateIndexRequest("articles");
 		request.settings(Settings.builder()
 				.put("analysis.analyzer.default.type", "serbian_analyzer"));
+		request.mapping("_doc", "location", "type=geo_point");
 		try {
 			elasticClient.indices().create(request, RequestOptions.DEFAULT);
 		} catch (ElasticsearchException e) {
@@ -110,7 +113,8 @@ public class ArticleServiceImpl implements ArticleService {
 						"articleAbstract", article.getArticleAbstract(),
 						"pdfContent", pdfContent,
 						"fieldOfStudy", article.getFieldOfStudy().getName(),
-						"authors", authors);
+						"authors", authors,
+						"location", article.getAuthor().getLocation());
 		indexRequest.setPipeline("attachment");
 		try {
 			elasticClient.index(indexRequest, RequestOptions.DEFAULT);
@@ -173,6 +177,24 @@ public class ArticleServiceImpl implements ArticleService {
 			};
 		return search(
 				QueryBuilders.moreLikeThisQuery(items).minDocFreq(2),
+				payer);
+	}
+
+	/**
+	 * Search using Geo Distance Query
+	 * @param query
+	 */
+	@Override
+	public List<ArticleDto> searchGeodistance(String location, ApplicationUser payer) {
+		BoolQueryBuilder compoundQuery = QueryBuilders.boolQuery();
+		compoundQuery.must(QueryBuilders.matchAllQuery());
+		compoundQuery.mustNot(
+				QueryBuilders.geoDistanceQuery("location")
+					.point(new GeoPoint(location))
+					.distance(100, DistanceUnit.KILOMETERS));
+
+		return search(
+				compoundQuery,
 				payer);
 	}
 
