@@ -126,33 +126,9 @@ public class ArticleServiceImpl implements ArticleService {
 	 */
 	@Override
 	public List<ArticleDto> searchAll(String query, ApplicationUser payer) {
-		SearchRequest searchRequest = new SearchRequest("articles");
-
-		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(
-				QueryBuilders.simpleQueryStringQuery(query).defaultOperator(Operator.AND));
-		searchRequest.source(searchSourceBuilder);
-
-		HighlightBuilder highlightBuilder = new HighlightBuilder();
-		highlightBuilder.field(new HighlightBuilder.Field("journalName"));
-		highlightBuilder.field(new HighlightBuilder.Field("title"));
-		highlightBuilder.field(new HighlightBuilder.Field("keywords"));
-		highlightBuilder.field(new HighlightBuilder.Field("articleAbstract"));
-		highlightBuilder.field(new HighlightBuilder.Field("attachment.content"));
-		highlightBuilder.field(new HighlightBuilder.Field("fieldOfStudy"));
-		highlightBuilder.field(new HighlightBuilder.Field("authors"));
-		highlightBuilder.preTags("<span class=\"highlight\">");
-		highlightBuilder.postTags("</span>");
-		searchSourceBuilder.highlighter(highlightBuilder);
-
-		try {
-			SearchResponse searchResponse = elasticClient.search(searchRequest, RequestOptions.DEFAULT);
-			SearchHits hits = searchResponse.getHits();
-			return articleConverter.toDto(hits, payer);
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		}
+		return search(
+				QueryBuilders.simpleQueryStringQuery(query).defaultOperator(Operator.AND),
+				payer);
 	}
 
 	/**
@@ -162,8 +138,6 @@ public class ArticleServiceImpl implements ArticleService {
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ArticleDto> searchAdvanced(Map<String, Object> query, ApplicationUser payer) {
-		SearchRequest searchRequest = new SearchRequest("articles");
-
 		BoolQueryBuilder compoundQuery = QueryBuilders.boolQuery();
 		for(String key : query.keySet()) {
 			Map<String, Object> field = (Map<String, Object>) query.get(key);
@@ -184,22 +158,29 @@ public class ArticleServiceImpl implements ArticleService {
 				compoundQuery.must(leafQuery);
 			}
 		}
+		return search(compoundQuery, payer);
+	}
+
+	private List<ArticleDto> search(QueryBuilder query, ApplicationUser payer) {
+		SearchRequest searchRequest = new SearchRequest("articles");
 
 		SearchSourceBuilder searchSourceBuilder = new SearchSourceBuilder();
-		searchSourceBuilder.query(compoundQuery);
-		searchRequest.source(searchSourceBuilder);
+		searchSourceBuilder.query(query);
 
 		HighlightBuilder highlightBuilder = new HighlightBuilder();
-		highlightBuilder.field(new HighlightBuilder.Field("journalName"));
-		highlightBuilder.field(new HighlightBuilder.Field("title"));
-		highlightBuilder.field(new HighlightBuilder.Field("keywords"));
-		highlightBuilder.field(new HighlightBuilder.Field("articleAbstract"));
-		highlightBuilder.field(new HighlightBuilder.Field("attachment.content"));
-		highlightBuilder.field(new HighlightBuilder.Field("fieldOfStudy"));
-		highlightBuilder.field(new HighlightBuilder.Field("authors"));
+		highlightBuilder.field("journalName");
+		highlightBuilder.field("title");
+		highlightBuilder.field("keywords");
+		highlightBuilder.field("articleAbstract");
+		highlightBuilder.field("attachment.content");
+		highlightBuilder.field("fieldOfStudy");
+		highlightBuilder.field("authors");
+		highlightBuilder.requireFieldMatch(true);
 		highlightBuilder.preTags("<span class=\"highlight\">");
 		highlightBuilder.postTags("</span>");
 		searchSourceBuilder.highlighter(highlightBuilder);
+
+		searchRequest.source(searchSourceBuilder);
 
 		try {
 			SearchResponse searchResponse = elasticClient.search(searchRequest, RequestOptions.DEFAULT);
