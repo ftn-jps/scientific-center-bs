@@ -13,7 +13,7 @@ angular.module('articleList')
 			this.getAll();
 
 			this.order = null;
-			this.isReverse = true;
+			this.isReverse = false;
 			this.orderBy = (order) => {
 				this.isReverse = (this.order === order) ? !this.isReverse : false;
 				this.order = order;
