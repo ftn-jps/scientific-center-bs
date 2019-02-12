@@ -44,6 +44,14 @@ angular.module('articleList')
 						this.articles = null;
 					});
 			};
+			this.searchMoreLikeThis = (articleId) => {
+				ArticleService.searchMoreLikeThis(articleId)
+					.then((response) => {
+						this.articles = response.data;
+					}, () => {
+						this.articles = null;
+					});
+			};
 
 			this.advancedEnabled = false;
 			this.advancedReset = false;

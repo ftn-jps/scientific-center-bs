@@ -88,4 +88,19 @@ public class ArticleController {
 		return new ResponseEntity<>(articles, HttpStatus.OK);
 	}
 
+	@GetMapping("/search/more-like-this/{articleId}")
+	public ResponseEntity<List<ArticleDto>> searchAll(Principal principal,
+			@PathVariable Long articleId) {
+		ApplicationUser payer;
+		if(principal == null)
+			payer = null;
+		else
+			payer = userService.findByEmail(principal.getName());
+
+		List<ArticleDto> articles = articleService.searchMoreLikeThis(articleId, payer);
+		if(articles == null || articles.isEmpty())
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		return new ResponseEntity<>(articles, HttpStatus.OK);
+	}
+
 }

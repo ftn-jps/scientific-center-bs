@@ -19,5 +19,6 @@ public interface ArticleService {
 	boolean index(Article article);
 	List<ArticleDto> searchAll(String query, ApplicationUser payer);
 	List<ArticleDto> searchAdvanced(Map<String, Object> query, ApplicationUser payer);
+	List<ArticleDto> searchMoreLikeThis(Long articleId, ApplicationUser payer);
 
 }

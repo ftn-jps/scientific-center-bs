@@ -15,6 +15,7 @@ import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.MoreLikeThisQueryBuilder.Item;
 import org.elasticsearch.index.query.Operator;
 import org.elasticsearch.index.query.QueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -159,6 +160,20 @@ public class ArticleServiceImpl implements ArticleService {
 			}
 		}
 		return search(compoundQuery, payer);
+	}
+
+	/**
+	 * Search using More Like This Query
+	 * @param query
+	 */
+	@Override
+	public List<ArticleDto> searchMoreLikeThis(Long articleId, ApplicationUser payer) {
+		Item[] items = new Item[] {
+				new Item("articles", "_doc", articleId.toString()).fields("attachment.content")
+			};
+		return search(
+				QueryBuilders.moreLikeThisQuery(items).minDocFreq(2),
+				payer);
 	}
 
 	private List<ArticleDto> search(QueryBuilder query, ApplicationUser payer) {

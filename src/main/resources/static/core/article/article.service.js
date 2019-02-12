@@ -17,4 +17,8 @@ angular.module('core.article')
 		this.searchAdvanced = (query) => {
 			return $http.put('/api/articles/search/', query);
 		};
+
+		this.searchMoreLikeThis = (articleId) => {
+			return $http.get(`/api/articles/search/more-like-this/${articleId}`);
+		};
 	});

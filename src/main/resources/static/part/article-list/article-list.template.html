@@ -139,7 +139,7 @@
 							Article is already purchased. Download here
 						</span>
 					</a>
-					<a ng-if="!article.hasAccess && $root.user" ng-click="$ctrl.buy(article.id)">
+					<a ng-if="!article.hasAccess && $root.user" ng-click="$ctrl.buy(article.id)" href="">
 						<i class="far fa-credit-card"></i>
 						Purchase for
 						<strong>{{article.journal.price | currency}}</strong>
@@ -147,6 +147,11 @@
 					<a ng-if="!article.hasAccess && !$root.user" ui-sref="authentication">
 						<i class="fas fa-fingerprint"></i>
 						Log in to purchase this article
+					</a>
+					<span class="separate mx-2"></span>
+					<a ng-click="$ctrl.searchMoreLikeThis(article.id)" href="">
+						<i class="fas fa-thumbs-up"></i>
+						Find more like this
 					</a>
 				</div>
 			</div>
