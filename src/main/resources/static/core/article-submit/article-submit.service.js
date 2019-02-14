@@ -5,4 +5,7 @@ angular.module('core.articleSubmit')
 		this.startSubmission = (journalId) => {
 			return $http.post(`/api/article-submit/${journalId}`);
 		};
+		this.getAllTasks = () => {
+			return $http.get('/api/article-submit');
+		};
 	});

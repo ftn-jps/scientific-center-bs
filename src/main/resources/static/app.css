@@ -60,7 +60,7 @@ my-header .navbar-brand {
 	font-size: 2rem;
 }
 
-my-sidebar {
+.sidebar {
 	background-color: var(--bg_color);
 	font-size: 1.1rem;
 }

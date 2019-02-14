@@ -8,5 +8,6 @@ angular.module('app', [
 	'core.authentication',
 	'articleList',
 	'documentViewer',
-	'journalList'
+	'journalList',
+	'tasks'
 ]);

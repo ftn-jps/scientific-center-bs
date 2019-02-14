@@ -24,6 +24,16 @@ angular.module('app')
 				component: 'myJournalList'
 			})
 			.state({
+				name: 'tasks',
+				url: '/tasks',
+				component: 'myTasks'
+			})
+			.state({
+				name: 'tasks.task',
+				url: '/{taskId}',
+				component: 'myTaskDetail'
+			})
+			.state({
 				name: 'profile',
 				url: '/profile',
 				component: 'myProfile'

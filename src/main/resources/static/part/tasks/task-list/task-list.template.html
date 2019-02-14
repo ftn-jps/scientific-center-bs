@@ -1,0 +1,14 @@
+<ul class="nav flex-column">
+	<li class="nav-item" ng-repeat="task in $ctrl.tasks track by task.id">
+		<a class="nav-link"
+			ui-sref="tasks.task({taskId: task.id})"
+			ui-sref-active="active">
+				<i class="fas fa-tasks"></i>
+				{{task.journalName}}
+				<span ng-show="task.articleName">//</span>
+				{{task.articleName}}
+				|
+				{{task.name}}
+		</a>
+	</li>
+</ul>
