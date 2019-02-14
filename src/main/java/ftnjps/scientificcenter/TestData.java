@@ -182,7 +182,7 @@ public class TestData {
 		journal3.addReviewer(reviewer3);
 		journal3 = journalService.add(journal3);
 
-		Journal journal4 = new Journal("4444-4444", "Journal Two", false, editor3, 5);
+		Journal journal4 = new Journal("4444-4444", "Journal Four", false, editor3, 5);
 		journal4.addFieldOfStudy(fieldGeography);
 		journal4.addFieldOfStudy(fieldChemistry);
 		journal4.addFieldOfStudy(fieldBiology);
