@@ -1,5 +1,6 @@
 'use strict';
 
 angular.module('journalList', [
-	'core.journal'
+	'core.journal',
+	'core.articleSubmit'
 ]);
