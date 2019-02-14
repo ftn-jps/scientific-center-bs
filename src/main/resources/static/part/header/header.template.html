@@ -20,12 +20,20 @@
 						Articles
 				</a>
 			</li>
-			<li class="nav-item">
+			<li class="nav-item" ng-if="$root.user">
 				<a class="nav-link"
-					ui-sref="submit"
+					ui-sref="journals"
 					ui-sref-active="active">
 						<i class="fas fa-chalkboard-teacher"></i>
 						Submit an Article
+				</a>
+			</li>
+			<li class="nav-item" ng-if="$root.user">
+				<a class="nav-link"
+					ui-sref="tasks"
+					ui-sref-active="active">
+						<i class="fas fa-thumbtack"></i>
+						Tasks
 				</a>
 			</li>
 			<li class="nav-item" ng-if="!$root.user">

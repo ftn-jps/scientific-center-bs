@@ -7,5 +7,6 @@ angular.module('app', [
 	'profile',
 	'core.authentication',
 	'articleList',
-	'documentViewer'
+	'documentViewer',
+	'journalList'
 ]);

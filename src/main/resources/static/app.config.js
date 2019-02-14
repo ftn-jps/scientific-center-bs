@@ -19,9 +19,9 @@ angular.module('app')
 				component: 'myDocumentViewer'
 			})
 			.state({
-				name: 'submit',
-				url: '/submit',
-				template: '<h1>Submit an article</h1>'
+				name: 'journals',
+				url: '/journals',
+				component: 'myJournalList'
 			})
 			.state({
 				name: 'profile',

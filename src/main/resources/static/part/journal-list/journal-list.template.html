@@ -1,0 +1,69 @@
+<div class="text-center my-3">
+	<h2>Journal list:</h2>
+</div>
+<div class="row no-gutters align-items-stretch">
+	<div ng-repeat="journal in $ctrl.journals track by journal.id"
+		class="col-lg-3 col-md-4 mb-2">
+			<div class="card m-md-1 h-100">
+				<div class="card-body">
+					<h3 class="card-title d-flex align-items-center justify-content-center">
+						{{journal.name}}
+						<span class="badge badge-custom ml-2">
+							<span ng-if="journal.openAccess">
+								OPEN ACCESS
+							</span>
+							<span ng-if="!journal.openAccess">
+								NONFREE
+							</span>
+						</span>
+					</h3>
+					<hr/>
+					<p class="card-text">
+						<i class="fas fa-graduation-cap"></i>
+						<strong>Fields of study:</strong>
+						<p class="ml-3" ng-repeat="fieldOfStudy in journal.fieldsOfStudy track by fieldOfStudy.id">
+							{{fieldOfStudy.name}}
+						</p>
+					</p>
+					<p class="card-text">
+						<i class="fas fa-user"></i>
+						<strong>Main editor:</strong>
+						<p class=ml-3>
+							{{journal.mainEditor.name}}
+							{{journal.mainEditor.lastName}}
+							{{journal.mainEditor.title}}
+						</p>
+					</p>
+					<p class="card-text">
+						<i class="fas fa-users"></i>
+						<strong>Other editors:</strong>
+						<p class="ml-3" ng-repeat="editor in journal.editors track by editor.id">
+							{{editor.name}}
+							{{editor.lastName}}
+							{{editor.title}}
+						</p>
+					</p>
+					<p class="card-text">
+						<i class="fas fa-users"></i>
+						<strong>Reviewers:</strong>
+						<p class="ml-3" ng-repeat="reviewer in journal.reviewers track by reviewer.id">
+							{{reviewer.name}}
+							{{reviewer.lastName}}
+							{{reviewer.title}}
+						</p>
+					</p>
+					<p class="card-text" ng-if="!journal.openAccess">
+						<i class="far fa-credit-card"></i>
+						<strong>Price:</strong>
+						{{journal.price | currency}}
+					</p>
+				</div>
+				<div class="card-footer text-center">
+					<a ng-click="$ctrl.submit(journal.id)" href="">
+						<i class="fas fa-upload"></i>
+						Submit an article
+					</a>
+				</div>
+			</div>
+	</div>
+</div>
