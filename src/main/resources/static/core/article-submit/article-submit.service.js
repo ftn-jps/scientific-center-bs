@@ -8,4 +8,7 @@ angular.module('core.articleSubmit')
 		this.getAllTasks = () => {
 			return $http.get('/api/article-submit');
 		};
+		this.getTask = (taskId) => {
+			return $http.get(`/api/article-submit/${taskId}`);
+		};
 	});

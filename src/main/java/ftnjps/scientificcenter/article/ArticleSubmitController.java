@@ -9,6 +9,7 @@ import java.util.Map;
 import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
+import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,7 +21,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import ftnjps.scientificcenter.camunda.TaskDetailDto;
 import ftnjps.scientificcenter.camunda.TaskDto;
+import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
 import ftnjps.scientificcenter.journal.Journal;
 import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
@@ -33,14 +36,16 @@ public class ArticleSubmitController {
 	@Autowired
 	private RuntimeService runtimeService;
 	@Autowired
-	TaskService taskService;
+	private TaskService taskService;
 	@Autowired
-	FormService formService;
+	private FormService formService;
 
 	@Autowired
-	JournalService journalService;
+	private JournalService journalService;
 	@Autowired
 	private ApplicationUserService userService;
+	@Autowired
+	private FieldOfStudyService fieldOfStudyService;
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/{journalId}")
@@ -76,8 +81,35 @@ public class ArticleSubmitController {
 					task.getId(),
 					task.getName(),
 					(String)runtimeService.getVariable(task.getProcessInstanceId(), "journalName"),
-					(String)runtimeService.getVariable(task.getProcessInstanceId(), "articleName")));
+					(String)runtimeService.getVariable(task.getProcessInstanceId(), "articleTitle")));
 		}
+		return new ResponseEntity<>(result, HttpStatus.OK);
+	}
+
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/{taskId}")
+	public ResponseEntity<?> getTask(Principal principal,
+			@PathVariable String taskId) {
+		ApplicationUser author = userService.findByEmail(principal.getName());
+
+		Task task = taskService.createTaskQuery()
+			.taskId(taskId)
+			.active()
+			.taskAssignee(author.getId().toString())
+			.list().get(0);
+		if(task == null) {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		List<FormField> formFields = formService.getTaskFormData(taskId).getFormFields();
+
+		TaskDetailDto result = new TaskDetailDto(
+				task.getId(),
+				task.getName(),
+				(String)runtimeService.getVariable(task.getProcessInstanceId(), "journalName"),
+				(Article)runtimeService.getVariable(task.getProcessInstanceId(), "article"),
+				(String)runtimeService.getVariable(task.getProcessInstanceId(), "pdfContent"),
+				formFields);
+		result.setFieldsOfStudy(fieldOfStudyService.findAll());
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
 
