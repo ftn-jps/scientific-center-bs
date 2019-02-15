@@ -19,29 +19,28 @@
     <bpmn:exclusiveGateway id="ExclusiveGateway_1wpzuek">
       <bpmn:incoming>SequenceFlow_0v4co79</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1w0buhw</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_1vw23dp</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_09vhf3s</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_0v4co79" name="Has subscription OR not required" sourceRef="ExclusiveGateway_03tu3re" targetRef="ExclusiveGateway_1wpzuek">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${!isOpenAccess || hasSubscription}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
-    <bpmn:sequenceFlow id="SequenceFlow_1vw23dp" sourceRef="ExclusiveGateway_1wpzuek" targetRef="Task_0ukl7qb" />
     <bpmn:userTask id="Task_0ukl7qb" name="Submit article" camunda:assignee="${authorId}">
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="title" label="Title" type="string" />
+          <camunda:formField id="coauthors" label="Coauthors" type="string" />
           <camunda:formField id="keywords" label="Keywords" type="string" />
           <camunda:formField id="articleAbstract" label="Abstract" type="string" />
-          <camunda:formField id="fieldOfStudyId" label="Field of study ID" type="long" />
-          <camunda:formField id="pdf" label="PDF" type="string" />
+          <camunda:formField id="fieldOfStudyId" label="Field of study" type="long" />
+          <camunda:formField id="pdfContent" label="PDF" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
-      <bpmn:incoming>SequenceFlow_1vw23dp</bpmn:incoming>
-      <bpmn:outgoing>SequenceFlow_03m7yk7</bpmn:outgoing>
+      <bpmn:incoming>SequenceFlow_09vhf3s</bpmn:incoming>
+      <bpmn:outgoing>SequenceFlow_1i8rwf1</bpmn:outgoing>
     </bpmn:userTask>
-    <bpmn:sequenceFlow id="SequenceFlow_03m7yk7" sourceRef="Task_0ukl7qb" targetRef="Task_1b8kzzb" />
     <bpmn:serviceTask id="Task_1b8kzzb" name="Send emails" camunda:class="ftnjps.scientificcenter.tasks.SendSubmissionEmails">
-      <bpmn:incoming>SequenceFlow_03m7yk7</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1q39k2f</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_1i8rwf1</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_0ao650l</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:userTask id="UserTask_1q62a1t" name="Decide if relevant" camunda:assignee="${mainEditorId}">
@@ -70,7 +69,7 @@
     <bpmn:userTask id="UserTask_1nrrde0" name="Submit corrected article" camunda:assignee="${authorId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="pdf" label="PDF" type="string" />
+          <camunda:formField id="pdfContent" label="Corrected PDF" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0gjw508</bpmn:incoming>
@@ -171,7 +170,7 @@
     <bpmn:userTask id="Task_0xiqmee" name="Correct and respond to comments" camunda:assignee="${authorId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="pdf" label="PDF" type="string" />
+          <camunda:formField id="pdfContent" label="PDF" type="string" />
           <camunda:formField id="comment" label="Comment" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -225,6 +224,8 @@
       <bpmn:incoming>SequenceFlow_1krfqfl</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1w0buhw</bpmn:outgoing>
     </bpmn:receiveTask>
+    <bpmn:sequenceFlow id="SequenceFlow_09vhf3s" sourceRef="ExclusiveGateway_1wpzuek" targetRef="Task_0ukl7qb" />
+    <bpmn:sequenceFlow id="SequenceFlow_1i8rwf1" sourceRef="Task_0ukl7qb" targetRef="Task_1b8kzzb" />
   </bpmn:process>
   <bpmn:message id="Message_0rw8813" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -269,17 +270,9 @@
           <dc:Bounds x="740" y="294" width="82" height="27" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge id="SequenceFlow_1vw23dp_di" bpmnElement="SequenceFlow_1vw23dp">
-        <di:waypoint x="1002" y="266" />
-        <di:waypoint x="1042" y="266" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="UserTask_1qoql9o_di" bpmnElement="Task_0ukl7qb">
-        <dc:Bounds x="1042" y="226" width="100" height="80" />
+        <dc:Bounds x="1049" y="226" width="100" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge id="SequenceFlow_03m7yk7_di" bpmnElement="SequenceFlow_03m7yk7">
-        <di:waypoint x="1142" y="266" />
-        <di:waypoint x="1182" y="266" />
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNShape id="ServiceTask_1p2o2x9_di" bpmnElement="Task_1b8kzzb">
         <dc:Bounds x="1182" y="226" width="100" height="80" />
       </bpmndi:BPMNShape>
@@ -496,6 +489,14 @@
       <bpmndi:BPMNShape id="ReceiveTask_0q3ndkn_di" bpmnElement="Task_19udtsj">
         <dc:Bounds x="809" y="170" width="100" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="SequenceFlow_09vhf3s_di" bpmnElement="SequenceFlow_09vhf3s">
+        <di:waypoint x="1002" y="266" />
+        <di:waypoint x="1049" y="266" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_1i8rwf1_di" bpmnElement="SequenceFlow_1i8rwf1">
+        <di:waypoint x="1149" y="266" />
+        <di:waypoint x="1182" y="266" />
+      </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
 </bpmn:definitions>

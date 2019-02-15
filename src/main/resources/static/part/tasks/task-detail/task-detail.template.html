@@ -1,1 +1,51 @@
-{{$ctrl.task | json}}
+<h2 class="text-center my-3">
+	<i class="fas fa-tasks"></i>
+	{{$ctrl.task.journalName}}
+	<span ng-show="$ctrl.task.article.title">//</span>
+	{{$ctrl.task.article.title}}
+	|
+	{{$ctrl.task.name}}
+</h2>
+<form name="taskForm" class="form-row justify-content-center">
+	<div class="col-lg-6">
+		<div class="form-group" ng-repeat="field in $ctrl.task.formFields track by field.id">
+			<label for="input{{field.id}}">
+				{{field.label}}
+			</label>
+			<span ng-switch="field.id">
+				<select ng-switch-when="fieldOfStudyId"
+					id="input{{field.id}}"
+					class="custom-select"
+					ng-model="$ctrl.form[field.id]"
+					required>
+						<option value="">---Select a {{field.label}}---</option>
+						<option ng-repeat="fieldOfStudy in $ctrl.task.fieldsOfStudy track by fieldOfStudy.id"
+							value="{{fieldOfStudy.id}}">{{fieldOfStudy.name}}</option>
+				</select>
+				<input ng-switch-when="pdfContent"
+					type="file"
+					id="input{{field.id}}"
+					class="custom-file"
+					placeholder="{{field.label}}"
+					ng-model="$ctrl.form[field.id]"
+					base-sixty-four-input
+					accept="application/pdf"
+					required/>
+				<input ng-switch-default
+					type="text"
+					id="input{{field.id}}"
+					class="form-control"
+					placeholder="{{field.label}}"
+					ng-model="$ctrl.form[field.id]"
+					required/>
+			</span>
+		</div>
+		<input type="submit"
+			class="btn btn-custom"
+			value="Submit"
+			ng-click="taskForm.$valid && $ctrl.submit()"/>
+		<p>
+			{{$ctrl.status}}
+		</p>
+	</div>
+</form>
