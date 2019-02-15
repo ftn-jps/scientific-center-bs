@@ -15,7 +15,7 @@ angular.module('tasks.taskDetail')
 			this.submit = () => {
 				ArticleSubmitService.submitTask(this.taskId, this.form).then(
 					() => {
-						$state.go('tasks');
+						$state.reload('tasks');
 					}
 				);
 			};

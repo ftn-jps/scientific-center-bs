@@ -6,10 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.camunda.bpm.engine.FormService;
 import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.TaskService;
-import org.camunda.bpm.engine.form.FormField;
 import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,9 +20,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import ftnjps.scientificcenter.camunda.TaskDetailDto;
+import ftnjps.scientificcenter.camunda.TaskDetailGenerator;
 import ftnjps.scientificcenter.camunda.TaskDto;
-import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
 import ftnjps.scientificcenter.journal.Journal;
 import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
@@ -39,14 +36,12 @@ public class ArticleSubmitController {
 	@Autowired
 	private TaskService taskService;
 	@Autowired
-	private FormService formService;
+	private TaskDetailGenerator taskDetailGenerator;
 
 	@Autowired
 	private JournalService journalService;
 	@Autowired
 	private ApplicationUserService userService;
-	@Autowired
-	private FieldOfStudyService fieldOfStudyService;
 
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/{journalId}")
@@ -61,6 +56,7 @@ public class ArticleSubmitController {
 		Map<String, Object> variables = new HashMap<String,Object>();
 		variables.put("journalId", journal.getId());
 		variables.put("journalName", journal.getName());
+		variables.put("mainEditorId", journal.getMainEditor().getId().toString());
 		variables.put("authorId", author.getId().toString());
 		runtimeService.startProcessInstanceByKey("submission", variables);
 		return new ResponseEntity<>(HttpStatus.OK);
@@ -82,7 +78,7 @@ public class ArticleSubmitController {
 					task.getId(),
 					task.getName(),
 					(String)runtimeService.getVariable(task.getProcessInstanceId(), "journalName"),
-					(String)runtimeService.getVariable(task.getProcessInstanceId(), "articleTitle")));
+					(String)runtimeService.getVariable(task.getProcessInstanceId(), "title")));
 		}
 		return new ResponseEntity<>(result, HttpStatus.OK);
 	}
@@ -101,17 +97,8 @@ public class ArticleSubmitController {
 		if(task == null) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-		List<FormField> formFields = formService.getTaskFormData(taskId).getFormFields();
 
-		TaskDetailDto result = new TaskDetailDto(
-				task.getId(),
-				task.getName(),
-				(String)runtimeService.getVariable(task.getProcessInstanceId(), "journalName"),
-				(Article)runtimeService.getVariable(task.getProcessInstanceId(), "article"),
-				(String)runtimeService.getVariable(task.getProcessInstanceId(), "pdfContent"),
-				formFields);
-		result.setFieldsOfStudy(fieldOfStudyService.findAll());
-		return new ResponseEntity<>(result, HttpStatus.OK);
+		return new ResponseEntity<>(taskDetailGenerator.generate(task), HttpStatus.OK);
 	}
 
 	@PreAuthorize("isAuthenticated()")
