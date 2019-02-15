@@ -19,6 +19,10 @@ public class EmailUtils {
 	@Async
 	public void sendEmail(String recipient, String subject, String message)
 			throws MailException, InterruptedException {
+		String password = env.getProperty("spring.mail.password");
+		if(password == null || password.equals(""))
+			return;
+
 		SimpleMailMessage mail = new SimpleMailMessage();
 		mail.setTo(recipient);
 		mail.setFrom(env.getProperty("spring.mail.username"));
