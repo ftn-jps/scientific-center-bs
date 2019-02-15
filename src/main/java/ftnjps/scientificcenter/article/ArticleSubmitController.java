@@ -54,7 +54,7 @@ public class ArticleSubmitController {
 		ApplicationUser author = userService.findByEmail(principal.getName());
 
 		Map<String, Object> variables = new HashMap<String,Object>();
-		variables.put("journalId", journal.getId());
+		variables.put("journalId", journal.getId().toString());
 		variables.put("journalName", journal.getName());
 		variables.put("mainEditorId", journal.getMainEditor().getId().toString());
 		variables.put("authorId", author.getId().toString());
