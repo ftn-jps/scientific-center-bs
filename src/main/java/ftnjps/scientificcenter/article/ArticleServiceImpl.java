@@ -72,9 +72,15 @@ public class ArticleServiceImpl implements ArticleService {
 	@Override
 	@Transactional(readOnly = false)
 	public Article add(Article article) {
-		if(article.getPdfContent() != null) {
+		return add(article, null);
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public Article add(Article article, String pdfContent) {
+		if(pdfContent != null && !pdfContent.isEmpty()) {
 			String fileName = UUID.randomUUID().toString();
-			fileUtils.writeToFile(article.getPdfContent(), fileName);
+			fileUtils.writeToFile(pdfContent, fileName);
 			article.setPdfName(fileName);
 		}
 		article = articleRepository.save(article);

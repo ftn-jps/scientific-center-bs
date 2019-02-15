@@ -8,7 +8,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Transient;
 import javax.persistence.Version;
 import javax.validation.constraints.NotNull;
 
@@ -55,10 +54,6 @@ public class Article {
 	@NotNull
 	@JsonIgnore
 	private String pdfName;
-
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@Transient
-	private String pdfContent;
 
 	public Article() {}
 
@@ -162,14 +157,6 @@ public class Article {
 
 	public void setPdfName(String pdfName) {
 		this.pdfName = pdfName;
-	}
-
-	public String getPdfContent() {
-		return pdfContent;
-	}
-
-	public void setPdfContent(String pdfContent) {
-		this.pdfContent = pdfContent;
 	}
 
 }

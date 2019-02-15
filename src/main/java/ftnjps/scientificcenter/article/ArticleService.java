@@ -14,6 +14,7 @@ public interface ArticleService {
 	String getPdf(Long id, ApplicationUser forUser);
 
 	Article add(Article article);
+	Article add(Article article, String pdfContent);
 
 	void createIndex();
 	boolean index(Article article);
