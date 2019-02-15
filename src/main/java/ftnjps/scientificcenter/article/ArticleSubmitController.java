@@ -58,6 +58,8 @@ public class ArticleSubmitController {
 		variables.put("journalName", journal.getName());
 		variables.put("mainEditorId", journal.getMainEditor().getId().toString());
 		variables.put("authorId", author.getId().toString());
+		variables.put("isRelevant", false);
+		variables.put("isBadFormatting", false);
 		runtimeService.startProcessInstanceByKey("submission", variables);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

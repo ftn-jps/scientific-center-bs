@@ -13,6 +13,8 @@ angular.module('tasks.taskDetail')
 			);
 
 			this.submit = () => {
+				if(this.form.coauthors.length === 0)
+					delete this.form.coauthors;
 				ArticleSubmitService.submitTask(this.taskId, this.form).then(
 					() => {
 						$state.reload('tasks');
