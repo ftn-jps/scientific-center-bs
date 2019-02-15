@@ -31,6 +31,21 @@
 					base-sixty-four-input
 					accept="application/pdf"
 					required/>
+				<div ng-switch-when="coauthors" class="ml-5">
+					<div ng-repeat="num in $ctrl.coauthorNumber track by $index">
+						<p>{{$index + 1}}.</p>
+						<input ng-repeat="coauthorField in $ctrl.coauthorFields track by $index"
+							type="text"
+							class="form-control my-1"
+							placeholder="{{coauthorField.name}}"
+							ng-model="$ctrl.form.coauthors[$parent.$index][coauthorField.code]"
+							required/>
+					</div>
+					<button class="btn btn-custom my-1" ng-click="$ctrl.coauthorNumber.push({})">
+						<i class="fas fa-plus"></i>
+						Add more coauthors
+					</button>
+				</div>
 				<input ng-switch-default
 					type="text"
 					id="input{{field.id}}"

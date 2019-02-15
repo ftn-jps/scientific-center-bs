@@ -11,5 +11,16 @@ angular.module('tasks.taskDetail')
 					this.task = response.data;
 				}
 			);
+
+			this.coauthorNumber = [{}];
+			this.coauthorFields = [
+				{ code: 'name', name: 'First name' },
+				{ code: 'lastName', name: 'Last name' },
+				{ code: 'email', name: 'Email' },
+				{ code: 'city', name: 'City' },
+				{ code: 'country', name: 'Country' }
+			];
+			this.form = {};
+			this.form.coauthors = [];
 		}
 	});
