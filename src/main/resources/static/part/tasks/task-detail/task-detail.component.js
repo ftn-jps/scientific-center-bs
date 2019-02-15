@@ -3,7 +3,7 @@
 angular.module('tasks.taskDetail')
 	.component('myTaskDetail', {
 		templateUrl: '/part/tasks/task-detail/task-detail.template.html',
-		controller: function(ArticleSubmitService, $stateParams) {
+		controller: function(ArticleSubmitService, $stateParams, $state) {
 			this.taskId = $stateParams.taskId;
 
 			ArticleSubmitService.getTask(this.taskId).then(
@@ -11,6 +11,14 @@ angular.module('tasks.taskDetail')
 					this.task = response.data;
 				}
 			);
+
+			this.submit = () => {
+				ArticleSubmitService.submitTask(this.taskId, this.form).then(
+					() => {
+						$state.go('tasks');
+					}
+				);
+			};
 
 			this.coauthorNumber = [{}];
 			this.coauthorFields = [
