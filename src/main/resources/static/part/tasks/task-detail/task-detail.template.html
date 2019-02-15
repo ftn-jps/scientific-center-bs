@@ -1,8 +1,8 @@
 <h2 class="text-center my-3">
 	<i class="fas fa-tasks"></i>
 	{{$ctrl.task.journalName}}
-	<span ng-show="$ctrl.task.article.title">//</span>
-	{{$ctrl.task.article.title}}
+	<span ng-show="$ctrl.task.title">//</span>
+	{{$ctrl.task.title}}
 	|
 	{{$ctrl.task.name}}
 </h2>
@@ -46,6 +46,19 @@
 						Add more coauthors
 					</button>
 				</div>
+				<select ng-switch-when="reviewers"
+					id="input{{field.id}}"
+					class="custom-select"
+					ng-model="$ctrl.form[field.id]"
+					multiple
+					required>
+						<option ng-repeat="reviewer in $ctrl.task.reviewers track by reviewer.id"
+							value="{{reviewer.id}}">
+							{{reviewer.name}}
+							{{reviewer.lastName}}
+							{{reviewer.title}}
+						</option>
+				</select>
 				<span ng-switch-default>
 					<div ng-if="field.typeName === 'boolean'" class="form-check">
 						<input type="checkbox"

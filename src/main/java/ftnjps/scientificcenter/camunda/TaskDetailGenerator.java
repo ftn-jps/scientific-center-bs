@@ -1,5 +1,6 @@
 package ftnjps.scientificcenter.camunda;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -11,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
+import ftnjps.scientificcenter.journal.Journal;
+import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
 
 @Component
@@ -20,6 +23,8 @@ public class TaskDetailGenerator {
 	private RuntimeService runtimeService;
 	@Autowired
 	private FormService formService;
+	@Autowired
+	private JournalService journalService;
 	@Autowired
 	private FieldOfStudyService fieldOfStudyService;
 
@@ -36,11 +41,18 @@ public class TaskDetailGenerator {
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "fieldOfStudyId"),
 				(List<ApplicationUser>)runtimeService.getVariable(task.getProcessInstanceId(), "coauthors"),
 				formFields);
+
 		result.setFieldsOfStudy(fieldOfStudyService.findAll());
+
+		Journal journal = journalService.findOne(
+				Long.parseLong((String)runtimeService.getVariable(task.getProcessInstanceId(), "journalId")));
+		result.setReviewers(new ArrayList<>(journal.getReviewers()));
+
 		Map<String, Object> pdfContent = (Map<String, Object>)
 				runtimeService.getVariable(task.getProcessInstanceId(), "pdfContent");
 		if(pdfContent != null)
 			result.setPdfContent((String) pdfContent.get("base64"));
+
 		return result;
 	}
 

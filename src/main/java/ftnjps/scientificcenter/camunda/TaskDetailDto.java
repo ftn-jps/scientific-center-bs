@@ -23,6 +23,7 @@ public class TaskDetailDto {
 	private String pdfContent;
 	private List<FormField> formFields = new ArrayList<>();
 	private List<FieldOfStudy> fieldsOfStudy;
+	private List<ApplicationUser> reviewers;
 
 	public TaskDetailDto() {}
 	public TaskDetailDto(String id,
@@ -111,6 +112,12 @@ public class TaskDetailDto {
 	}
 	public void setFieldsOfStudy(List<FieldOfStudy> fieldsOfStudy) {
 		this.fieldsOfStudy = fieldsOfStudy;
+	}
+	public List<ApplicationUser> getReviewers() {
+		return reviewers;
+	}
+	public void setReviewers(List<ApplicationUser> reviewers) {
+		this.reviewers = reviewers;
 	}
 
 }

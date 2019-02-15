@@ -106,9 +106,7 @@
     <bpmn:userTask id="Task_0k3704t" name="Choose reviewers" camunda:assignee="${otherEditorId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="reviewer1" label="Reviewer #1 ID" type="long" />
-          <camunda:formField id="reviewer2" label="Reviewer #2 ID" type="long" />
-          <camunda:formField id="reviewer3" label="Reviewer #3 ID" type="long" />
+          <camunda:formField id="reviewers" label="Choose reviewers" type="long" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1sbdwy7</bpmn:incoming>
@@ -116,13 +114,16 @@
       <bpmn:outgoing>SequenceFlow_00y3xx4</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_00y3xx4" sourceRef="Task_0k3704t" targetRef="Task_1tb51pr" />
-    <bpmn:userTask id="Task_1tb51pr" name="Review">
+    <bpmn:userTask id="Task_1tb51pr" name="Review" camunda:assignee="${reviewerId}">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="comment" label="Comment" type="string" />
+        </camunda:formData>
+      </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_00y3xx4</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_0je4myi</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_1aeegkq</bpmn:outgoing>
-      <bpmn:multiInstanceLoopCharacteristics>
-        <bpmn:loopCardinality xsi:type="bpmn:tFormalExpression">3</bpmn:loopCardinality>
-      </bpmn:multiInstanceLoopCharacteristics>
+      <bpmn:multiInstanceLoopCharacteristics camunda:collection="${reviewers}" camunda:elementVariable="reviewerId" />
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_1aeegkq" sourceRef="Task_1tb51pr" targetRef="Task_11x7qzu" />
     <bpmn:userTask id="Task_11x7qzu" name="Final decision" camunda:assignee="${otherEditorId}">
