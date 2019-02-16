@@ -32,6 +32,8 @@ angular.module('tasks.taskDetail')
 			];
 			this.reviewFields = [
 				{ code: 'comment', name: 'Comment' },
+				{ code: 'recommendation', name: 'Recommendation for the main editor' },
+				{ code: 'hiddenComment', name: 'Comment for the main editor' }
 			];
 			this.form = {};
 			this.form.coauthors = [];

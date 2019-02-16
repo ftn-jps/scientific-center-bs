@@ -26,6 +26,8 @@ public class TaskDetailDto {
 	private List<FieldOfStudy> fieldsOfStudy;
 	private List<ApplicationUser> reviewers;
 	private List<Map<String, Object>> reviews;
+	private String mainEditorComment;
+	private String authorComment;
 
 	public TaskDetailDto() {}
 	public TaskDetailDto(String id,
@@ -36,8 +38,9 @@ public class TaskDetailDto {
 			String articleAbstract,
 			String fieldOfStudyId,
 			List<ApplicationUser> coauthors,
-			List<FormField> formFields) {
-		super();
+			List<FormField> formFields,
+			String mainEditorComment,
+			String authorComment) {
 		this.id = id;
 		this.name = name;
 		this.journalName = journalName;
@@ -47,6 +50,8 @@ public class TaskDetailDto {
 		this.fieldOfStudyId = fieldOfStudyId;
 		this.coauthors = coauthors;
 		this.formFields = formFields;
+		this.mainEditorComment = mainEditorComment;
+		this.authorComment = authorComment;
 	}
 
 	public String getId() {
@@ -126,6 +131,18 @@ public class TaskDetailDto {
 	}
 	public void setReviews(List<Map<String, Object>> reviews) {
 		this.reviews = reviews;
+	}
+	public String getMainEditorComment() {
+		return mainEditorComment;
+	}
+	public void setMainEditorComment(String mainEditorComment) {
+		this.mainEditorComment = mainEditorComment;
+	}
+	public String getAuthorComment() {
+		return authorComment;
+	}
+	public void setAuthorComment(String authorComment) {
+		this.authorComment = authorComment;
 	}
 
 }

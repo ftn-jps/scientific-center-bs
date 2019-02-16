@@ -48,6 +48,7 @@
         <camunda:formData>
           <camunda:formField id="isRelevant" label="Relevant?" type="boolean" />
           <camunda:formField id="isBadFormating" label="Bad formatting?" type="boolean" />
+          <camunda:formField id="mainEditorComment" label="Comment" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_0ao650l</bpmn:incoming>
@@ -169,7 +170,7 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="pdfContent" label="PDF" type="string" />
-          <camunda:formField id="comment" label="Comment" type="string" />
+          <camunda:formField id="authorComment" label="Comment" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1lkacex</bpmn:incoming>

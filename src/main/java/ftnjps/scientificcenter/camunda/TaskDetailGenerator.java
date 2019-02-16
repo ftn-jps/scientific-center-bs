@@ -40,7 +40,9 @@ public class TaskDetailGenerator {
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "articleAbstract"),
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "fieldOfStudyId"),
 				(List<ApplicationUser>)runtimeService.getVariable(task.getProcessInstanceId(), "coauthors"),
-				formFields);
+				formFields,
+				(String)runtimeService.getVariable(task.getProcessInstanceId(), "mainEditorComment"),
+				(String)runtimeService.getVariable(task.getProcessInstanceId(), "authorComment"));
 
 		result.setFieldsOfStudy(fieldOfStudyService.findAll());
 
