@@ -107,11 +107,12 @@
     <bpmn:userTask id="Task_0k3704t" name="Choose reviewers" camunda:assignee="${otherEditorId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="reviewers" label="Choose reviewers" type="long" />
+          <camunda:formField id="reviewers" label="Choose reviewers" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_1sbdwy7</bpmn:incoming>
       <bpmn:incoming>SequenceFlow_1lpaav7</bpmn:incoming>
+      <bpmn:incoming>SequenceFlow_0bo9744</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_00y3xx4</bpmn:outgoing>
     </bpmn:userTask>
     <bpmn:sequenceFlow id="SequenceFlow_00y3xx4" sourceRef="Task_0k3704t" targetRef="Task_1tb51pr" />
@@ -135,6 +136,7 @@
             <camunda:value id="NEED_CORRECTION_SMALL" name="Needs small correction" />
             <camunda:value id="NEED_CORRECTION_BIG" name="Needs big correction" />
             <camunda:value id="DENIED" name="Denied" />
+            <camunda:value id="ADDITIONAL_REVIEW" name="Needs an additional review" />
           </camunda:formField>
         </camunda:formData>
       </bpmn:extensionElements>
@@ -154,6 +156,7 @@
       <bpmn:outgoing>SequenceFlow_08hxxt6</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_1lkacex</bpmn:outgoing>
       <bpmn:outgoing>SequenceFlow_18h6xpt</bpmn:outgoing>
+      <bpmn:outgoing>SequenceFlow_0bo9744</bpmn:outgoing>
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_10gk8z1" sourceRef="Task_11x7qzu" targetRef="ExclusiveGateway_059w3j6" />
     <bpmn:sequenceFlow id="SequenceFlow_08hxxt6" name="Approved" sourceRef="ExclusiveGateway_059w3j6" targetRef="Task_0yvm3a9">
@@ -226,6 +229,9 @@
     <bpmn:sequenceFlow id="SequenceFlow_09vhf3s" sourceRef="ExclusiveGateway_1wpzuek" targetRef="Task_0ukl7qb" />
     <bpmn:sequenceFlow id="SequenceFlow_1i8rwf1" sourceRef="Task_0ukl7qb" targetRef="Task_1b8kzzb" />
     <bpmn:sequenceFlow id="SequenceFlow_1vl5qyy" sourceRef="ExclusiveGateway_1knehw2" targetRef="Task_0bt865s" />
+    <bpmn:sequenceFlow id="SequenceFlow_0bo9744" name="Needs an additional review" sourceRef="ExclusiveGateway_059w3j6" targetRef="Task_0k3704t">
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "ADDITIONAL_REVIEW"}</bpmn:conditionExpression>
+    </bpmn:sequenceFlow>
   </bpmn:process>
   <bpmn:message id="Message_0rw8813" />
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
@@ -490,6 +496,16 @@
       <bpmndi:BPMNEdge id="SequenceFlow_1vl5qyy_di" bpmnElement="SequenceFlow_1vl5qyy">
         <di:waypoint x="438" y="535" />
         <di:waypoint x="849" y="535" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="SequenceFlow_0bo9744_di" bpmnElement="SequenceFlow_0bo9744">
+        <di:waypoint x="242" y="1032" />
+        <di:waypoint x="190" y="993" />
+        <di:waypoint x="190" y="833" />
+        <di:waypoint x="728" y="833" />
+        <di:waypoint x="728" y="795" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="95" y="955" width="82" height="27" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

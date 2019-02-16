@@ -109,7 +109,7 @@ public class TestData {
 				"Belgrade",
 				"Serbia");
 		reviewer2.setTitle("Ph.D.");
-		reviewer2.addFieldOfStudy(fieldAstronomy);
+		reviewer2.addFieldOfStudy(fieldMathematics);
 		reviewer2.setUserType(ApplicationUserType.REVIEWER);
 		reviewer2 = applicationUserService.add(reviewer2);
 

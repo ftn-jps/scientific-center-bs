@@ -25,6 +25,19 @@ public class FindFOSEditor implements JavaDelegate{
 				Long.parseLong((String)execution.getVariable("journalId")));
 		FieldOfStudy fieldOfStudy = fieldOfStudyService.findOne(
 				Long.parseLong((String)execution.getVariable("fieldOfStudyId")));
+
+		boolean reviewerExists = false;
+		for(ApplicationUser reviewer : journal.getReviewers()) {
+			if(reviewer.getFieldsOfStudy().contains(fieldOfStudy)) {
+				reviewerExists = true;
+				break;
+			}
+		}
+		if(!reviewerExists) {
+			execution.setVariable("otherEditorId", execution.getVariable("mainEditorId"));
+			return;
+		}
+
 		for(ApplicationUser editor : journal.getEditors()) {
 			if(editor.getFieldsOfStudy().contains(fieldOfStudy)) {
 				execution.setVariable("otherEditorId", editor.getId().toString());
