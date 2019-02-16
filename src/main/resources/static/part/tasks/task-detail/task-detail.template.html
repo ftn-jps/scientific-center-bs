@@ -106,4 +106,100 @@
 	</div>
 </form>
 
-{{$ctrl.task}}
+<!-- Article preview -->
+<div class="row no-gutters align-items-stretch justify-content-center">
+	<div class="col-md-6" ng-if="$ctrl.task.title">
+		<h2 class="text-center">Article:</h2>
+		<div class="card m-md-1">
+			<div class="card-body">
+				<h3 class="card-title d-flex align-items-center justify-content-center">
+					{{$ctrl.task.title}}
+					<span class="badge badge-custom ml-2">
+						{{$ctrl.task.fieldOfStudy.name | uppercase}}
+					</span>
+				</h3>
+				<hr/>
+				<p class="card-text">
+					<i class="far fa-user-circle"></i>
+					<strong>Authors:</strong>
+					<p class=ml-3>
+						{{$ctrl.task.author.name}}
+						{{$ctrl.task.author.lastName}}
+						{{$ctrl.task.author.title}}
+					</p>
+					<p class="ml-3" ng-repeat="coauthor in $ctrl.task.coauthors track by coauthor.id">
+						{{coauthor.name}}
+						{{coauthor.lastName}}
+						{{coauthor.title}}
+					</p>
+				</p>
+				<p class="card-text">
+					<i class="fas fa-key"></i>
+					<strong>Keywords:</strong>
+					<p class="ml-3">
+						{{$ctrl.task.keywords}}
+					</p>
+				</p>
+				<p class="card-text">
+					<i class="fas fa-bookmark"></i>
+					<strong>Abstract:</strong>
+					<p class="ml-3">
+						{{$ctrl.task.articleAbstract}}
+					</p>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6" ng-if="$ctrl.task.mainEditorComment">
+		<h2 class="text-center">Comments:</h2>
+		<div class="card m-md-1" ng-if="$ctrl.task.authorComment">
+			<div class="card-header">
+				Author's comment:
+			</div>
+			<div class="card-body">
+				<p class="card-text">
+					{{$ctrl.task.authorComment}}
+				</p>
+			</div>
+		</div>
+		<div class="card m-md-1">
+			<div class="card-header">
+				Main editor's comment:
+			</div>
+			<div class="card-body">
+				<p class="card-text">
+					{{$ctrl.task.mainEditorComment}}
+				</p>
+			</div>
+		</div>
+		<div class="card m-md-1"
+			ng-repeat="review in $ctrl.task.reviews">
+				<div class="card-header">
+					{{$index}}. reviewer's comment:
+				</div>
+				<div class="card-body">
+					<p class="card-text">
+						{{review.comment}}
+					</p>
+					<p ng-if="$root.user.userType !== 'AUTHOR'" class="card-text">
+						Recommendation:
+						{{review.recommendation}}
+					</p>
+					<p ng-if="$root.user.userType !== 'AUTHOR'" class="card-text">
+						Comment not visible to the author:
+						{{review.hiddenComment}}
+					</p>
+				</div>
+		</div>
+	</div>
+</div>
+
+<!-- Document preview -->
+<div class="row justify-content-center align-items-center">
+	<object class="col-md-10 m-md-2"
+		height="800"
+		ng-if="$ctrl.task.pdfContent"
+		data="data:application/pdf;base64,{{$ctrl.task.pdfContent}}">
+	</object>
+</div>
