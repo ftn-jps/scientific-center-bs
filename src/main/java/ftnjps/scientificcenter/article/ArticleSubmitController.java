@@ -60,6 +60,7 @@ public class ArticleSubmitController {
 		variables.put("authorId", author.getId().toString());
 		variables.put("isRelevant", false);
 		variables.put("isBadFormatting", false);
+		variables.put("reviews", new ArrayList<Map<String, Object>>());
 		runtimeService.startProcessInstanceByKey("submission", variables);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -103,6 +104,7 @@ public class ArticleSubmitController {
 		return new ResponseEntity<>(taskDetailGenerator.generate(task), HttpStatus.OK);
 	}
 
+	@SuppressWarnings("unchecked")
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/task/{taskId}")
 	public ResponseEntity<?> submitTask(Principal principal,
@@ -119,6 +121,12 @@ public class ArticleSubmitController {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 
+		if(form.get("review") != null) {
+			List<Map<String, Object>> reviews =
+					(List<Map<String, Object>>)runtimeService.getVariable(task.getProcessInstanceId(), "reviews");
+			reviews.add((Map<String, Object>) form.get("review"));
+			runtimeService.setVariable(task.getProcessInstanceId(), "reviews", reviews);
+		}
 		runtimeService.setVariables(task.getProcessInstanceId(), form);
 		taskService.complete(taskId);
 

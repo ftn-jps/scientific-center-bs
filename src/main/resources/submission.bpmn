@@ -117,7 +117,7 @@
     <bpmn:userTask id="Task_1tb51pr" name="Review" camunda:assignee="${reviewerId}">
       <bpmn:extensionElements>
         <camunda:formData>
-          <camunda:formField id="comment" label="Comment" type="string" />
+          <camunda:formField id="review" label="Submit a review" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
       <bpmn:incoming>SequenceFlow_00y3xx4</bpmn:incoming>
@@ -156,14 +156,14 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_10gk8z1" sourceRef="Task_11x7qzu" targetRef="ExclusiveGateway_059w3j6" />
     <bpmn:sequenceFlow id="SequenceFlow_08hxxt6" name="Approved" sourceRef="ExclusiveGateway_059w3j6" targetRef="Task_0yvm3a9">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == APPROVED}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "APPROVED"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:serviceTask id="Task_0yvm3a9" name="Send email" camunda:class="ftnjps.scientificcenter.tasks.SendApprovedEmail">
       <bpmn:incoming>SequenceFlow_08hxxt6</bpmn:incoming>
       <bpmn:outgoing>SequenceFlow_05gfsh9</bpmn:outgoing>
     </bpmn:serviceTask>
     <bpmn:sequenceFlow id="SequenceFlow_1lkacex" name="Pending correction" sourceRef="ExclusiveGateway_059w3j6" targetRef="Task_0xiqmee">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == NEED_CORRECTION_SMALL || approved == NEED_CORRECTION_BIG}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "NEED_CORRECTION_SMALL" || approved == "NEED_CORRECTION_BIG"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:userTask id="Task_0xiqmee" name="Correct and respond to comments" camunda:assignee="${authorId}">
       <bpmn:extensionElements>
@@ -185,7 +185,7 @@
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == NEED_CORRECTION_BIG}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_18h6xpt" name="Denied" sourceRef="ExclusiveGateway_059w3j6" targetRef="EndEvent_0ott5or">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == DENIED}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "DENIED"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_0ott5or">
       <bpmn:incoming>SequenceFlow_18h6xpt</bpmn:incoming>

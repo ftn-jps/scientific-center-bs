@@ -48,6 +48,10 @@ public class TaskDetailGenerator {
 				Long.parseLong((String)runtimeService.getVariable(task.getProcessInstanceId(), "journalId")));
 		result.setReviewers(new ArrayList<>(journal.getReviewers()));
 
+		List<Map<String, Object>> reviews = (List<Map<String, Object>>)
+				runtimeService.getVariable(task.getProcessInstanceId(), "reviews");
+		result.setReviews(reviews);
+
 		Map<String, Object> pdfContent = (Map<String, Object>)
 				runtimeService.getVariable(task.getProcessInstanceId(), "pdfContent");
 		if(pdfContent != null)

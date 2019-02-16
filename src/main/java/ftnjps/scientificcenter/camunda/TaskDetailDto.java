@@ -2,6 +2,7 @@ package ftnjps.scientificcenter.camunda;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.camunda.bpm.engine.form.FormField;
 
@@ -24,6 +25,7 @@ public class TaskDetailDto {
 	private List<FormField> formFields = new ArrayList<>();
 	private List<FieldOfStudy> fieldsOfStudy;
 	private List<ApplicationUser> reviewers;
+	private List<Map<String, Object>> reviews;
 
 	public TaskDetailDto() {}
 	public TaskDetailDto(String id,
@@ -118,6 +120,12 @@ public class TaskDetailDto {
 	}
 	public void setReviewers(List<ApplicationUser> reviewers) {
 		this.reviewers = reviewers;
+	}
+	public List<Map<String, Object>> getReviews() {
+		return reviews;
+	}
+	public void setReviews(List<Map<String, Object>> reviews) {
+		this.reviews = reviews;
 	}
 
 }
