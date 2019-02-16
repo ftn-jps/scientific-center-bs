@@ -92,12 +92,14 @@ public class ArticleSubmitController {
 			@PathVariable String taskId) {
 		ApplicationUser author = userService.findByEmail(principal.getName());
 
-		Task task = taskService.createTaskQuery()
-			.taskId(taskId)
-			.active()
-			.taskAssignee(author.getId().toString())
-			.list().get(0);
-		if(task == null) {
+		Task task;
+		try {
+			task = taskService.createTaskQuery()
+				.taskId(taskId)
+				.active()
+				.taskAssignee(author.getId().toString())
+				.list().get(0);
+		} catch(Exception e) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 

@@ -18,7 +18,8 @@ public class TaskDetailDto {
 	private String title;
 	private String keywords;
 	private String articleAbstract;
-	private String fieldOfStudyId;
+	private FieldOfStudy fieldOfStudy;
+	private ApplicationUser author;
 	private List<ApplicationUser> coauthors;
 
 	private String pdfContent;
@@ -36,7 +37,8 @@ public class TaskDetailDto {
 			String title,
 			String keywords,
 			String articleAbstract,
-			String fieldOfStudyId,
+			FieldOfStudy fieldOfStudy,
+			ApplicationUser author,
 			List<ApplicationUser> coauthors,
 			List<FormField> formFields,
 			String mainEditorComment,
@@ -47,7 +49,8 @@ public class TaskDetailDto {
 		this.title = title;
 		this.keywords = keywords;
 		this.articleAbstract = articleAbstract;
-		this.fieldOfStudyId = fieldOfStudyId;
+		this.fieldOfStudy = fieldOfStudy;
+		this.author = author;
 		this.coauthors = coauthors;
 		this.formFields = formFields;
 		this.mainEditorComment = mainEditorComment;
@@ -90,11 +93,17 @@ public class TaskDetailDto {
 	public void setArticleAbstract(String articleAbstract) {
 		this.articleAbstract = articleAbstract;
 	}
-	public String getFieldOfStudyId() {
-		return fieldOfStudyId;
+	public FieldOfStudy getFieldOfStudy() {
+		return fieldOfStudy;
 	}
-	public void setFieldOfStudyId(String fieldOfStudyId) {
-		this.fieldOfStudyId = fieldOfStudyId;
+	public void setFieldOfStudy(FieldOfStudy fieldOfStudy) {
+		this.fieldOfStudy = fieldOfStudy;
+	}
+	public ApplicationUser getAuthor() {
+		return author;
+	}
+	public void setAuthor(ApplicationUser author) {
+		this.author = author;
 	}
 	public List<ApplicationUser> getCoauthors() {
 		return coauthors;

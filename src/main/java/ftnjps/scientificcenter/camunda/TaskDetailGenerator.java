@@ -11,10 +11,12 @@ import org.camunda.bpm.engine.task.Task;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import ftnjps.scientificcenter.fieldofstudy.FieldOfStudy;
 import ftnjps.scientificcenter.fieldofstudy.FieldOfStudyService;
 import ftnjps.scientificcenter.journal.Journal;
 import ftnjps.scientificcenter.journal.JournalService;
 import ftnjps.scientificcenter.users.ApplicationUser;
+import ftnjps.scientificcenter.users.ApplicationUserService;
 
 @Component
 public class TaskDetailGenerator {
@@ -27,10 +29,24 @@ public class TaskDetailGenerator {
 	private JournalService journalService;
 	@Autowired
 	private FieldOfStudyService fieldOfStudyService;
+	@Autowired
+	private ApplicationUserService userService;
 
 	@SuppressWarnings("unchecked")
 	public TaskDetailDto generate(Task task) {
 		List<FormField> formFields = formService.getTaskFormData(task.getId()).getFormFields();
+
+		String fieldOfStudyId = (String)runtimeService.getVariable(task.getProcessInstanceId(), "fieldOfStudyId");
+		FieldOfStudy fieldOfStudy = null;
+		if(fieldOfStudyId != null) {
+			fieldOfStudy = fieldOfStudyService.findOne(Long.parseLong(fieldOfStudyId));
+		}
+		String authorId = (String)runtimeService.getVariable(task.getProcessInstanceId(), "authorId");
+		ApplicationUser author = null;
+		if(authorId != null) {
+			author = userService.findOne(Long.parseLong(authorId));
+		}
+
 		TaskDetailDto result = new TaskDetailDto(
 				task.getId(),
 				task.getName(),
@@ -38,7 +54,8 @@ public class TaskDetailGenerator {
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "title"),
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "keywords"),
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "articleAbstract"),
-				(String)runtimeService.getVariable(task.getProcessInstanceId(), "fieldOfStudyId"),
+				fieldOfStudy,
+				author,
 				(List<ApplicationUser>)runtimeService.getVariable(task.getProcessInstanceId(), "coauthors"),
 				formFields,
 				(String)runtimeService.getVariable(task.getProcessInstanceId(), "mainEditorComment"),

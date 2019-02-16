@@ -47,7 +47,7 @@
       <bpmn:extensionElements>
         <camunda:formData>
           <camunda:formField id="isRelevant" label="Relevant?" type="boolean" />
-          <camunda:formField id="isBadFormating" label="Bad formatting?" type="boolean" />
+          <camunda:formField id="isBadFormatting" label="Bad formatting?" type="boolean" />
           <camunda:formField id="mainEditorComment" label="Comment" type="string" />
         </camunda:formData>
       </bpmn:extensionElements>
@@ -183,7 +183,7 @@
     </bpmn:exclusiveGateway>
     <bpmn:sequenceFlow id="SequenceFlow_12rnafp" sourceRef="Task_0xiqmee" targetRef="ExclusiveGateway_0a22x1n" />
     <bpmn:sequenceFlow id="SequenceFlow_0je4myi" name="Big correction" sourceRef="ExclusiveGateway_0a22x1n" targetRef="Task_1tb51pr">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == NEED_CORRECTION_BIG}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "NEED_CORRECTION_BIG"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:sequenceFlow id="SequenceFlow_18h6xpt" name="Denied" sourceRef="ExclusiveGateway_059w3j6" targetRef="EndEvent_0ott5or">
       <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "DENIED"}</bpmn:conditionExpression>
@@ -201,7 +201,7 @@
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="SequenceFlow_0zit3kr" sourceRef="Task_12og33x" targetRef="EndEvent_05wacyb" />
     <bpmn:sequenceFlow id="SequenceFlow_0uoanno" name="Small correction" sourceRef="ExclusiveGateway_0a22x1n" targetRef="Task_11x7qzu">
-      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == NEED_CORRECTION_SMALL}</bpmn:conditionExpression>
+      <bpmn:conditionExpression xsi:type="bpmn:tFormalExpression">${approved == "NEED_CORRECTION_SMALL"}</bpmn:conditionExpression>
     </bpmn:sequenceFlow>
     <bpmn:endEvent id="EndEvent_1fd5p5k">
       <bpmn:incoming>SequenceFlow_0e22x7h</bpmn:incoming>
