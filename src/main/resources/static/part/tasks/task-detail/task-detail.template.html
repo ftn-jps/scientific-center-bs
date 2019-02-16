@@ -77,7 +77,16 @@
 							{{field.label.substring(0, field.label.length - 1)}}
 						</label>
 					</div>
-					<input ng-if="field.typeName !== 'boolean'"
+					<select ng-if="field.typeName === 'enum'"
+						id="input{{field.id}}"
+						class="custom-select"
+						ng-model="$ctrl.form[field.id]"
+						required>
+							<option value="">---{{field.label}}---</option>
+							<option ng-repeat="(enumKey, enumValue) in field.type.values"
+								value="{{enumKey}}">{{enumValue}}</option>
+					</select>
+					<input ng-if="field.typeName !== 'boolean' && field.typeName !== 'enum'"
 						type="text"
 						id="input{{field.id}}"
 						class="form-control"
